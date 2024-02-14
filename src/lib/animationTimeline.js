@@ -1,0 +1,1 @@
+export const calculateTextDelay = (text, delayTime) => text.replace(/\s/, '').length * delayTime
