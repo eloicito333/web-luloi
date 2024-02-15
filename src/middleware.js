@@ -7,7 +7,7 @@ export default withAuth(
     console.log(JSON.stringify(req, null, 2))
     console.log(req.nextauth?.token?.role);
     
-    return NextResponse.next()
+    /* return NextResponse.next() */
 
     if (req.nextauth?.token?.role === "USER") {
       let url = new URL("/no-authorized", req.url)
