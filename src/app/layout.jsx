@@ -26,11 +26,11 @@ export const metadata = {
     siteName: 'Luloi',
     locale: 'ca_CA',
     type: 'website',
-    images: [
+    /* images: [
       {
         url: '/open-graph.png'
       }
-    ]
+    ] */
   },
   robots: {
     index: false,
