@@ -1,7 +1,7 @@
 "use client"
 
 import { Button, Card, CardBody } from '@nextui-org/react'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { motion } from 'framer-motion';
 import { useLocalStorage } from '@/app/hooks/useLocalStorage';
