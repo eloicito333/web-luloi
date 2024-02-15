@@ -1,9 +1,12 @@
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
+import { getAuthSession } from "./lib/nextAuth";
+import { getServerSession } from "next-auth";
 
 export default withAuth(
   // `withAuth` augments your `Request` with the user's token.
-  function middleware(req){
+  async function middleware(req){
+    console.log(await getServerxSession(req))
     console.log(JSON.stringify(req, null, 2))
     console.log(req.nextauth?.token?.role);
     
