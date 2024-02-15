@@ -20,7 +20,6 @@ function NotificationComponents() {
   let handleActivateNotificationsButtonClick = async () => {}
 
   useEffect(() => {
-    if(typeof globalThis?.window === undefined || typeof globalThis?.window?.navigator === undefined) return undefined
     registerServiceWorker = async () => {
       try{
         if (typeof globalThis?.window !== undefined && 'serviceWorker' in navigator) {
