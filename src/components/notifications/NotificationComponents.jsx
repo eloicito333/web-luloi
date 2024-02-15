@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 
 import { motion } from 'framer-motion';
 import { useLocalStorage } from '@/app/hooks/useLocalStorage';
+import { getNotificationToken } from '@/lib/firebase.client';
 
 function NotificationComponents() {
   const [hasPermision, setHasPermission] = useLocalStorage('hasNotificationPermision', false)
