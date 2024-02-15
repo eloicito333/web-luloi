@@ -10,7 +10,7 @@ import { signIn } from 'next-auth/react';
 export default function Home() {
 
   const handleLogInButtonClick = () => {
-    signIn()
+    signIn('google', {callbackUrl: '/dashboard'})
   }
 
   return (

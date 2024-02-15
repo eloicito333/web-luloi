@@ -5,6 +5,7 @@ import React, { useEffect } from 'react'
 
 import { motion } from 'framer-motion';
 import Notification from './Notification';
+import { useLocalStorage } from '@/app/hooks/useLocalStorage';
 
 function NotificationComponents() {
   const [hasPermision, setHasPermission] = useLocalStorage('hasNotificationPermision', false)

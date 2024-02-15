@@ -1,15 +1,13 @@
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
-import { getAuthSession } from "./lib/nextAuth";
-import { getServerSession } from "next-auth";
 
 export default withAuth(
   // `withAuth` augments your `Request` with the user's token.
-  async function middleware(req){
-    console.log(await getServerxSession(req))
+  function middleware(req){
     console.log(JSON.stringify(req, null, 2))
     console.log(req.nextauth?.token?.role);
     
+    return NextRequest.next()
 
     if (req.nextauth?.token?.role === "USER") {
       let url = new URL("/no-authorized", req.url)
