@@ -4,7 +4,6 @@ import { Button, Card, CardBody } from '@nextui-org/react'
 import React, { useEffect } from 'react'
 
 import { motion } from 'framer-motion';
-import Notification from './Notification';
 import { useLocalStorage } from '@/app/hooks/useLocalStorage';
 
 function NotificationComponents() {
