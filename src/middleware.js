@@ -3,7 +3,8 @@ import { NextResponse } from "next/server";
 
 export default withAuth(
   // `withAuth` augments your `Request` with the user's token.
-  function middleware(req) {
+  function middleware(req){
+    console.log(req)
     console.log(req.nextauth?.token?.role);
     
 
@@ -29,7 +30,8 @@ export default withAuth(
   },
   {
     callbacks: {
-      authorized: ({ token } ) => {
+      authorized: (auth) => {
+        console.log(auth?.token)
         return true
       },
     },
