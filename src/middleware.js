@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export default withAuth(
   // `withAuth` augments your `Request` with the user's token.
   function middleware(req){
-    console.log(req)
+    console.log(JSON.stringify(req, null, 2))
     console.log(req.nextauth?.token?.role);
     
 
