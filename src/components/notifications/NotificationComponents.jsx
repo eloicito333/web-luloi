@@ -60,8 +60,6 @@ function NotificationComponents() {
     }
   }, [])
 
-  try{if (globalThis?.window === undefined || navigator === undefined) return (<div></div>)} catch{}
-
   return (
     <>
       {hasPermision ? (
