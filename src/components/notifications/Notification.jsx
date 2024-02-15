@@ -17,16 +17,21 @@ const Notification = () => {
   };
 
   useEffect(() => {
-    if (notification?.title ){
-     notify()
-    }
+    try{
+      if(window === undefined) return
+      if (notification?.title ){
+      notify()
+      onMessageListener()
+      .then((payload) => {
+        setNotification({title: payload?.notification?.title, body: payload?.notification?.body});     
+      })
+      .catch((err) => console.log('failed: ', err));
+      }
+    } catch {}
   }, [notification])
 
-  onMessageListener()
-    .then((payload) => {
-      setNotification({title: payload?.notification?.title, body: payload?.notification?.body});     
-    })
-    .catch((err) => console.log('failed: ', err));
+
+  try{if (window === undefined || navigator === undefined) return (<div></div>)} catch{}
 
   return (
      <Toaster/>

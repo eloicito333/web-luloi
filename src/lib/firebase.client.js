@@ -15,9 +15,10 @@ const firebaseConfig = {
  
 initializeApp(firebaseConfig);
 
-export const messaging = getMessaging();
+export const messaging = globalThis?.window?.navigator ? getMessaging() : {};
 
 export const getNotificationToken = async () => {
+  if(!globalThis?.window?.navigator) return ''
   const token = await getToken(messaging, {vapidKey})
   
   if(!token) return new Error('Error while requesting the token to the browser')
@@ -25,6 +26,7 @@ export const getNotificationToken = async () => {
 }
 
 export const onMessageListener = () => {
+  if(!globalThis?.window?.navigator) return new Promise(() => resolve({}))
   return new Promise((resolve) => {
     onMessage(messaging, (payload) => {
       console.log("payload", payload)
