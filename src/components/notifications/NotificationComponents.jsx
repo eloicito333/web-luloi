@@ -13,14 +13,14 @@ function NotificationComponents() {
     if(globalThis?.window?.Notification?.permission !== "granted") setHasPermission(false)
   },[setHasPermission])
 
-  let askForPermissionToReceiveNotifications = async () => {};
+  const [askForPermissionToReceiveNotifications, setAskForPermissionToReceiveNotifications] = useState(() => {})
 
-  let registerServiceWorker = () => { };
+  const [registerServiceWorker, setRegisterServiceWorker] = useState(() => {})
 
-  let handleActivateNotificationsButtonClick = async () => {}
+  const [handleActivateNotificationsButtonClick, setHandleActivateNotificationsButtonClick] = useState(() => {})
 
   useEffect(() => {
-    registerServiceWorker = async () => {
+    setRegisterServiceWorker(async () => {
       try{
         if (typeof globalThis?.window !== undefined && 'serviceWorker' in navigator) {
           navigator.serviceWorker.register('/firebase-messaging-sw.js')
@@ -32,16 +32,9 @@ function NotificationComponents() {
             });
         } 
     } catch (error) {}
-    };
-    handleActivateNotificationsButtonClick = async () => {
-      try{
-        await askForPermissionToReceiveNotifications()
-        registerServiceWorker()
-      } catch (error) {
-        console.error('An error ocurred while activating the notifications on the browser: '. error)
-      }
-    }
-    askForPermissionToReceiveNotifications = async () => {
+    })
+
+    setAskForPermissionToReceiveNotifications(async () => {
       try {
         const token = await getNotificationToken()
         console.log('got token: ', token)
@@ -56,8 +49,16 @@ function NotificationComponents() {
       } catch (error) {
         console.error('Error while requesting notification permission:', error);
       }
-    }
-  }, [])
+    })
+    setHandleActivateNotificationsButtonClick(async () => {
+      try{
+        await askForPermissionToReceiveNotifications()
+        registerServiceWorker()
+      } catch (error) {
+        console.error('An error ocurred while activating the notifications on the browser: '. error)
+      }
+    })
+  }, [askForPermissionToReceiveNotifications, registerServiceWorker, handleActivateNotificationsButtonClick])
 
   return (
     <>
