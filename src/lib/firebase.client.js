@@ -17,14 +17,14 @@ const firebaseApp = initializeApp(firebaseConfig);
 
 export const messaging = globalThis?.window?.navigator ? getMessaging() : {};
 
-export const getNotificationToken = async () => {
+export const getNotificationToken = async (serviceWorkerRegistration ) => {
   try {
     console.log(firebaseApp)
     console.log('get notification')
     if(!globalThis?.window?.navigator) return ''
     console.log('get notification - nevagator exists')
     console.log(messaging, vapidKey)
-    return getToken(messaging, {vapidKey}).then((token) => {
+    return getToken(messaging, {vapidKey, serviceWorkerRegistration}).then((token) => {
       console.log('token: ', token, !token)
 
       if(!token) return new Error('Empty token send by the browser: ', token)

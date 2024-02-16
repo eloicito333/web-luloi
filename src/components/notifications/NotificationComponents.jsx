@@ -44,8 +44,8 @@ function NotificationComponents() {
   const handleActivateNotificationsButtonClick = async () => {
     console.log('clicked notifi')
     try{
-      await registerServiceWorker()
-      await askForPermissionToReceiveNotifications()
+      const registration = await registerServiceWorker()
+      await askForPermissionToReceiveNotifications(registration)
     } catch (error) {
       console.error('An error ocurred while activating the notifications on the browser: '. error)
     }
