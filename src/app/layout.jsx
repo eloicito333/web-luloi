@@ -10,7 +10,7 @@ export const metadata = {
   description: "Pàgina web creada amb tot el carinyo del món per penjarte cosetes 😙",
   referrer: 'origin-when-cross-origin',
   keywords: [],
-  metadataBase: process.env?.VERCEL_URL || 'http://localhost:3000/' ,
+  metadataBase: new URL(process.env?.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : `http://localhost:${process.env?.PORT || 3000}`) ,
   authors: [{ name: 'Eloi Buil Cuadrat' }],
   creator: 'Eloi Buil Cuadrat',
   publisher: 'Eloi Buil Cuadrat',
@@ -26,11 +26,10 @@ export const metadata = {
     siteName: 'Luloi',
     locale: 'ca_CA',
     type: 'website',
-    /* images: [
-      {
-        url: '/open-graph.png'
-      }
-    ] */
+    images: {
+      url: '/open-graph.png',
+      alt: `Foto de la Lucia i l'Eloi fent mewing`
+    }
   },
   robots: {
     index: false,
