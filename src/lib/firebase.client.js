@@ -13,28 +13,19 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID
 };
  
-const firebaseApp = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 export const messaging = globalThis?.window?.navigator ? getMessaging() : {};
 
 export const getNotificationToken = async (serviceWorkerRegistration ) => {
-  try {
-    console.log(firebaseApp)
-    console.log('get notification')
-    if(!globalThis?.window?.navigator) return ''
-    console.log('get notification - nevagator exists')
-    console.log(messaging, vapidKey)
-    return getToken(messaging, {vapidKey, serviceWorkerRegistration}).then((token) => {
-      console.log('token: ', token, !token)
 
-      if(!token) return new Error('Empty token send by the browser: ', token)
-      console.log('here')
-      return token
-    }).catch((e) => {throw new Error(e)})
-    
-  } catch (error) {
-    console.error('An error ocurred while requesting the token to the browser: ', error)
-  }
+  if(!globalThis?.window?.navigator) return ''
+
+  const token = await getToken(messaging, {vapidKey, serviceWorkerRegistration})
+  if(!token) return new Error('Empty token send by the browser: ', token)
+  
+  return token
+
 }
 
 export const onMessageListener = () => {

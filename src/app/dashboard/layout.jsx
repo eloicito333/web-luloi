@@ -1,4 +1,4 @@
-import AuthorizedLayout from '@/components/AuthorizedLayout'
+import AuthorizedLayout from '@/components/layouts/authorized/AuthorizedLayout'
 import React from 'react'
 
 export const metadata = {

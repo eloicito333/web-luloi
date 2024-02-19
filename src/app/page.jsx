@@ -4,7 +4,6 @@ import AnimatedBtn from '@/components/AnimatedBtn';
 import AnimatedCircles from '@/components/AnimatedCircles';
 import AnimatedText from '@/components/AnimatedText'
 import { calculateTextDelay } from '@/lib/animationTimeline';
-import { Button } from '@nextui-org/react';
 import { signIn } from 'next-auth/react';
 
 export default function Home() {
