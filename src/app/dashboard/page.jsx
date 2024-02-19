@@ -11,7 +11,7 @@ function Dashboard() {
     <div className="p-4 flex flex-col gap-4 items-center h-full bg-gradient-to-t from-indigo-500 via-purple-400 to-pink-300">
       <NotificationComponents notificationState={[hasNotificationPermision, setHasNotificationPermission]} />
       {hasNotificationPermision && (
-        {/* <div>has permission</div> */}
+        <div></div>
       )}
     </div>
   )
