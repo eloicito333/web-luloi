@@ -8,6 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "Luloi",
   description: "Pàgina web creada amb tot el carinyo del món per penjarte cosetes 😙",
+  manifest: "/manifest.webmanifest",
   referrer: 'origin-when-cross-origin',
   keywords: [],
   metadataBase: new URL(process.env?.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : `http://localhost:${process.env?.PORT || 3000}`) ,
@@ -27,7 +28,7 @@ export const metadata = {
     locale: 'ca_CA',
     type: 'website',
     images: {
-      url: '/open-graph.png',
+      url: '/opengraph-image.png',
       alt: `Foto de la Lucia i l'Eloi fent mewing`
     }
   },
