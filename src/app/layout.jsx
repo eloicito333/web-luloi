@@ -45,13 +45,20 @@ export const metadata = {
     },
   },
   icons: {
-    icon: '/icon.png',
-    shortcut: '/icon.png',
-    apple: '/icon.png',
+    icon: '/favicon.ico',
+    shortcut: '/icon-white.png',
+    apple: '/apple-icon.png',
     other: {
       rel: 'luloi-icon',
-      url: '/icon.png',
+      url: '/icon-white.png',
     },
+  },
+  appleWebApp: {
+    title: 'Luloi',
+    statusBarStyle: 'black-translucent',
+    startupImage: [
+      '/apple-icon.png',
+    ],
   },
 };
 

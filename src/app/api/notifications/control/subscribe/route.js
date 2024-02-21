@@ -26,7 +26,7 @@ export const POST = async (request, response) => {
     return NextResponse.json({success: 'the token has been stored successfully'}, {status: 200})
     
   } catch (error) {
-    console.error('An erro occured while trying to safe a notification token through an api request to /api/notifications/claim/send-token. Error: ', error)
+    console.error('An error occured while trying to safe a notification token through an api request to /api/notifications/claim/send-token. Error: ', error)
     return NextResponse.json({error: 'An error occured while trying to store the token'}, {status: 500})
   }
 }
