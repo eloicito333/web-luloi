@@ -17,7 +17,7 @@ firebase.initializeApp(firebaseConfig);
 
 // Retrieve firebase messaging
 const messaging = firebase.messaging();
-
+/* 
 messaging.onBackgroundMessage(function(payload) {
   console.log('Received background message ', payload);
  // Customize notification here
@@ -29,4 +29,4 @@ messaging.onBackgroundMessage(function(payload) {
 
   self.registration.showNotification(notificationTitle,
     notificationOptions);
-});
+}); */
