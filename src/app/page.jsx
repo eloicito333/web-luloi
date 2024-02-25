@@ -3,8 +3,10 @@
 import AnimatedBtn from '@/components/AnimatedBtn';
 import AnimatedCircles from '@/components/AnimatedCircles';
 import AnimatedText from '@/components/AnimatedText'
+import ActivatePWAModal from '@/components/modals/ActivatePWAModal';
 import { calculateTextDelay } from '@/lib/animationTimeline';
 import { signIn } from 'next-auth/react';
+import { useEffect, useRef } from 'react';
 
 export default function Home() {
 
@@ -12,8 +14,16 @@ export default function Home() {
     signIn('google', {callbackUrl: '/dashboard'})
   }
 
+  const openModalRef = useRef(null)
+
+  useEffect(() => {
+    const isIOS = /iPad|iPhone|iPod/.test(globalThis?.window?.navigator.userAgent) && !globalThis?.window?.MSStream;
+    if (isIOS && !globalThis?.window.matchMedia('(display-mode: standalone)').matches) openModalRef?.current?.click()
+  }, [openModalRef])
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-10 sm:p-24 bg-pink-200 overflow-hidden">
+      <ActivatePWAModal openModalRef={openModalRef} />
       <div className="flex flex-col items-center justify-center gap-10 md:gap-20">
         <div className='relative z-50'>
           <div className="flex flex-row items-start justify-start">

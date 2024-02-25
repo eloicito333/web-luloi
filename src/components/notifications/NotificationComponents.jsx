@@ -1,42 +1,18 @@
 "use client"
 
-import { Button, Card, CardBody } from '@nextui-org/react'
+import { Button } from '@nextui-org/react'
 import React, { useEffect, useState } from 'react'
 
 import { motion } from 'framer-motion';
 import { getNotificationToken } from '@/lib/firebase.client';
-import Notification from '@/components/notifications/Notification';
 
-function NotificationComponents({notificationState}) {
+function NotificationComponents({notificationState, openModal}) {
   const [hasNotificationPermision, setHasNotificationPermission] = notificationState
-  const [isAdviceNotificationVisible, setIsAdviceNotificationVisible] = useState(false)
+  const [isButtonLoading, setIsButtonLoading] = useState(false)
   
   useEffect(() => {
     if(globalThis?.window?.Notification?.permission !== "granted") setHasNotificationPermission(false)
-    else {
-      setIsAdviceNotificationVisible(true)
-      const timer = setTimeout(() => {
-        setIsAdviceNotificationVisible(false);
-      }, 3000);
-  
-      // Clear the timer on component unmount to prevent memory leaks
-      return () => clearTimeout(timer);
-    }
-  },[hasNotificationPermision])
-
-  const AdviceNotificationVariants = {
-    hidden: {
-      opacity: 0,
-      y: -50,
-    },
-    visible: {
-      opacity: 1,
-      y: 30,
-      transition: {
-        duration: 0.5,
-      },
-    },
-  };
+  },[setHasNotificationPermission])
 
   const askForPermissionToReceiveNotifications = async (serviceWorkerRegistration) => {
     try {
@@ -51,8 +27,8 @@ function NotificationComponents({notificationState}) {
       if(response.status !== 200) return new Error('error while posting notification token')
       
       setHasNotificationPermission(true)
-
     } catch (error) {
+      if (isIOS && !globalThis?.window.matchMedia('(display-mode: standalone)').matches) openModal()
       console.error('Error while requesting notification permission:', error);
     }
   }
@@ -74,10 +50,15 @@ function NotificationComponents({notificationState}) {
   }
 
   const handleActivateNotificationsButtonClick = async () => {
-    console.log('clicked notifi')
+    console.log('activate notification button clicked')
+    setIsButtonLoading(true)
     try{
       const registration = await registerServiceWorker()
       await askForPermissionToReceiveNotifications(registration)
+      const Notification = globalThis?.window?.Notification
+      setIsButtonLoading(false)
+      if(Notification) new Notification("Luloi 🩵", { body: "Gràcies per activar les notificacions 😘", icon: "/icon.png" });
+
     } catch (error) {
       console.error('An error ocurred while activating the notifications on the browser: '. error)
     }
@@ -85,32 +66,12 @@ function NotificationComponents({notificationState}) {
 
   return (
     <div className="w-full flex justify-center items-center">
-      {hasNotificationPermision ? (
-        <div className="w-full relative flex justify-center items-center">
-          <motion.div
-            className="absolute"
-            initial="hidden"
-            animate={isAdviceNotificationVisible ? "visible" : "hidden"}
-            variants={AdviceNotificationVariants}
-            exit="hidden"
-          >
-            <Card
-              isBordered
-              className="h-min "
-              shadow="sm"
-            >
-              <CardBody>
-                <h6 className="text-xl font-bold flex justify-center items-center text-center">Gràcies per activar les notificacions 😘</h6>
-              </CardBody>
-            </Card>
-          </motion.div>
-          {<Notification />}
-        </div>
-      ) : (
+      {!hasNotificationPermision &&(
         <Button
           className="text-xl font-bold py-6"
           variant="flat"
           color="secondary"
+          isLoading={isButtonLoading}
           onClick={handleActivateNotificationsButtonClick}
           as={motion.button}
           animate={{opacity: 1, y: 0}}

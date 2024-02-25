@@ -16,7 +16,7 @@ export const authOptions = {
           name: profile.name,
           email: profile.email,
           image: profile.picture,
-          role: profile?.role ?? "AUTH",
+          role: profile?.role ?? process.env.NEXTAUTH_DEFAULT_ROL,
         };
       },
     })
