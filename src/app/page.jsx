@@ -15,7 +15,6 @@ export default function Home() {
   }
 
   const openModalRef = useRef(null)
-
   useEffect(() => {
     const isIOS = /iPad|iPhone|iPod/.test(globalThis?.window?.navigator.userAgent) && !globalThis?.window?.MSStream;
     if (isIOS && !globalThis?.window.matchMedia('(display-mode: standalone)').matches) openModalRef?.current?.click()

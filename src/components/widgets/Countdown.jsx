@@ -124,7 +124,7 @@ const resumedGroups = [
 ]
 
 const CountdownWidget = ({initialTime}) => {
-  const countdownDate = new Date(process.env.NEXT_PUBLIC_COUNTDOWN_DATE)
+  const countdownDate = new Date(process.env.NEXT_PUBLIC_COUNTDOWN_DATE || "2023-09-23T00:00:00")
 
   const [now, setNow] = useState(initialTime)
   const [isAccordionOpened, setIsAccordionOpened] = useState(true)
@@ -145,7 +145,7 @@ const CountdownWidget = ({initialTime}) => {
 
   return (
     <Card
-      className="bg-pink-200/70 bg-opacity-50 p-2 sm:p-4 rounded-lg"
+      className="bg-pink-200/70 bg-opacity-50 p-2 sm:p-4 rounded-lg tabular-nums"
       as={motion.div}
       transition={{duration: .3}}
       variants={{

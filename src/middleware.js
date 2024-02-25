@@ -7,8 +7,7 @@ export default withAuth(
     console.log(req.nextauth?.token?.role);
     
     /* return NextResponse.next() */
-    if(req.nextUrl.pathname === "/" || req.nextUrl.pathname.split('?')[0] === "/") return NextResponse.next();
-    else if (req.nextauth?.token?.role === "USER") {
+     if (req.nextauth?.token?.role === "USER") {
       let url = new URL("/no-authorized", req.url)
       url.searchParams.append("redirect", req.url)
       return NextResponse.redirect(url)

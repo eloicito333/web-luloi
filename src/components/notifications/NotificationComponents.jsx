@@ -28,7 +28,8 @@ function NotificationComponents({notificationState, openModal}) {
       
       setHasNotificationPermission(true)
     } catch (error) {
-      if (isIOS && !globalThis?.window.matchMedia('(display-mode: standalone)').matches) openModal()
+      setIsButtonLoading(false)
+      openModal()
       console.error('Error while requesting notification permission:', error);
     }
   }

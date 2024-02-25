@@ -5,6 +5,7 @@ import NotificationComponents from '@/components/notifications/NotificationCompo
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import CountdownWidget from '@/components/widgets/Countdown';
 import ActivatePWAModal from '@/components/modals/ActivatePWAModal';
+import MoreContentSoon from '@/components/widgets/MoreContentSoon';
 
 function Dashboard() {
   const [hasNotificationPermision, setHasNotificationPermission] = useLocalStorage('hasNotificationPermision', false)
@@ -23,10 +24,11 @@ function Dashboard() {
 
       <ActivatePWAModal openModalRef={openModalRef} />
       <NotificationComponents notificationState={[hasNotificationPermision, setHasNotificationPermission]} openModal={openModal} />
-      <div>
+      <div className='flex justify-center items-center'>
         {hasNotificationPermision && (
-          <div>
+          <div className="flex flex-col justify-center items-center gap-4">
             <CountdownWidget initialTime={new Date()}/>
+            <MoreContentSoon />
           </div>
         )}
       </div>
