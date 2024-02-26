@@ -5,7 +5,7 @@ export default withAuth(
   // `withAuth` augments your `Request` with the user's token.
   function middleware(req){
     console.log(req.nextauth?.token?.role);
-    consolel.log('req Obj: ', req)
+    console.log('req Obj: ', req)
 
     
     /* return NextResponse.next() */
@@ -32,7 +32,7 @@ export default withAuth(
   {
     callbacks: {
       authorized: (auth) => {
-        consolel.log('auth Obj: ', auth)
+        console.log('auth Obj: ', auth)
         return true
       },
     },
