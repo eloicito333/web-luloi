@@ -127,7 +127,7 @@ const CountdownWidget = ({initialTime}) => {
   const countdownDate = new Date(process.env.NEXT_PUBLIC_COUNTDOWN_DATE || "2023-09-23T00:00:00")
 
   const [now, setNow] = useState(initialTime)
-  const [isAccordionOpened, setIsAccordionOpened] = useState(true)
+  const [isAccordionOpened, setIsAccordionOpened] = useState(false)
 
   useEffect(() => {
     const interval = setInterval(() => {
