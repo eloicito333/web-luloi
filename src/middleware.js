@@ -7,7 +7,7 @@ export default withAuth(
     console.log(req.nextauth?.token?.role);
     
     /* return NextResponse.next() */
-     if (req.nextauth?.token?.role === "USER") {
+    if (req.nextauth?.token?.role === "USER") {
       let url = new URL("/no-authorized", req.url)
       url.searchParams.append("redirect", req.url)
       return NextResponse.redirect(url)
@@ -36,4 +36,4 @@ export default withAuth(
   }
 );
 
-export const config = { matcher: ["/", "/admin/:path*", "/dashboard", "/api/notifications/[...path]"] };
+export const config = { matcher: ["/", "/admin/[...path]", "/dashboard", "/api/notifications/[...path]"] };
