@@ -78,14 +78,16 @@ const CounterWidget = ({initialTime, isPageLoockingClear}) => {
       (async () => {
         const response = await fetch('/api/counterWidget/lastAniversaryDateSeen')
         if(response.status !== 200) throw new Error('error while retrieving lastAniversaryDateSeen data')
-        const currentDate = (await response.json()).lastAniversaryDateSeen
-        if(!currentDate) {
+        const parsedResponse = await response.json()
+        console.log(parsedResponse)
+        const currentDate = parsedResponse.lastAniversaryDateSeen
+        if(currentDate === undefined) {
           throw new Error('error while retrieving lastAniversaryDateSeen data')
         }
         setLastAniversaryDateSeen(currentDate)
       })()
     }
-    else if(globalThis.window !== undefined && isPageLoockingClear && lastAniversaryDateSeen < monthsDiff(counterDate, now)) {
+    else if(globalThis?.window !== undefined && isPageLoockingClear && lastAniversaryDateSeen < monthsDiff(counterDate, now)) {
       (async () => {
         const currentDate = monthsDiff(counterDate, now)
         const response = await fetch('/api/counterWidget/lastAniversaryDateSeen', {
