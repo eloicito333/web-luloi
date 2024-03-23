@@ -68,7 +68,7 @@ export default async function RootLayout({ children }) {
   const session = await getAuthSession()
 
   return (
-    <html lang="ca" className={`overflow-hidden light`}>
+    <html lang="ca" className={`overflow-hidden light p-0 m-0 max-w-screen max-h-screen`}>
       <body className={`${inter.className} w-full h-full overflow-hidden text-black`}>
         <Providers nextAuthSession={session}>
           {children}

@@ -39,4 +39,4 @@ export default withAuth(
   }
 );
 
-export const config = { matcher: ["/", "/admin/[...path]", "/dashboard", "/api/notifications/[...path]"] };
+export const config = { matcher: ["/", "/admin/[...path]", "/dashboard", "/api/notifications/[...path]", "/api/counterWidget/[...path]"] };

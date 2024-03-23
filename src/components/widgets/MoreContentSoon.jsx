@@ -1,11 +1,11 @@
-import { Card } from '@nextui-org/react'
 import React from 'react'
+import WidgetCard from './components/WidgetCard'
 
 function MoreContentSoon() {
   return (
-    <Card className="bg-pink-200/70 bg-opacity-50 p-3 sm:p-4 rounded-lg max-w-[331px] sm:max-w-[371px]">
+    <WidgetCard className="p-3">
       <p>Quan em vingui de gust aniré posant coses que puguin resultar mitjanament útils o que em semblin gracioses. De mentres gaudeix del que tens 😙.</p>
-    </Card>
+    </WidgetCard>
   )
 }
 

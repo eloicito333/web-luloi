@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 export const useLocalStorage = (key, initialValue) => {
-  const [storedValue, setStoredValue] = useState(() => {
+  const [storedValue, setStoredValue] = useState (() => {
     try {
       const item = globalThis?.window?.localStorage?.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
+      return item ? JSON.parse(item) : (initialValue instanceof Function ? initialValue() : initialValue);
     } catch (error) {
       console.error('Error retrieving data from localStorage:', error);
       return initialValue;
@@ -13,8 +13,7 @@ export const useLocalStorage = (key, initialValue) => {
 
   const setValue = (value) => {
     try {
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
+      const valueToStore = value instanceof Function ? value(storedValue) : value;
       setStoredValue(valueToStore);
       window.localStorage.setItem(key, JSON.stringify(valueToStore));
     } catch (error) {

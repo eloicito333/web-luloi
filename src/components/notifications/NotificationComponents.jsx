@@ -65,10 +65,11 @@ function NotificationComponents({notificationState, openModal}) {
     }
   }
 
+  if(hasNotificationPermision) return null
+
   return (
     <div className="w-full flex justify-center items-center">
-      {!hasNotificationPermision &&(
-        <Button
+      <Button
           className="text-xl font-bold py-6"
           variant="flat"
           color="secondary"
@@ -79,7 +80,6 @@ function NotificationComponents({notificationState, openModal}) {
           initial={{opacity: 0, y: -30}}
           transition={{duration: .5, delay: .005}}
         >Activa les notificacions 🔔</Button>
-      )}
     </div>
   )
 }
