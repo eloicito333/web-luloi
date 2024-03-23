@@ -2,7 +2,7 @@
 
 import { Button, CardBody, CardFooter, CardHeader } from '@nextui-org/react';
 import { useState, useEffect } from 'react';
-import {AnimatePresence, motion, useViewportScroll} from 'framer-motion'
+import {AnimatePresence, motion } from 'framer-motion'
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import WidgetCard from './components/WidgetCard';
 import { useWindowSize } from '@/hooks/useWindowSize';
@@ -96,7 +96,7 @@ const CounterWidget = ({initialTime, isPageLoockingClear}) => {
         setLastAniversaryDateSeen(currentDate)
       })()
     }
-  }, [isPageLoockingClear, lastAniversaryDateSeen, counterDate, now])
+  }, [isPageLoockingClear, lastAniversaryDateSeen, setLastAniversaryDateSeen, counterDate, now])
 
   const handleAccordionButtonClick = () => {
     setIsAccordionOpened((state) => !state)
