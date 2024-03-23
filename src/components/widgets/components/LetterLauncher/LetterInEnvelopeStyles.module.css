@@ -3,135 +3,142 @@
 @value envelope-tab: var(--color-pink-300);
 @value envelope-cover: var(--color-pink-200);
 @value envelope-cover-2: var(--color-pink-100);
-@value shadow-color: rgba(0,0,0,.2);
+@value shadow-color: rgba(0, 0, 0, .2);
 @value txt-color: var(--color-black);
 @value heart-color: rgb(252, 8, 231);
-
 .container {
-  display: flex;
-  top: -1000px;
-  position: relative;
-  padding-top: 2000px;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-  transition: all 1s ease-in-out;
-  transform: scale(1);
+    display: flex;
+    top: -1000px;
+    position: relative;
+    padding-top: 2000px;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    transition: all 1s ease-in-out;
+    transform: scale(1);
 }
 
 .envelopeWrapper {
-  background: bg-envelope-color;
-  box-shadow: 0 0 40px shadow-color;
-  cursor: pointer;
-  transition: all 1s ease-in-out;
+    background: bg-envelope-color;
+    box-shadow: 0 0 40px shadow-color;
+    cursor: pointer;
+    transition: all 1s ease-in-out;
 }
 
 .envelope {
-  position: relative;
-  width: 300px;
-  height: 230px;
-  display: flex;
-  justify-content: center;
+    position: relative;
+    width: 300px;
+    height: 230px;
+    display: flex;
+    justify-content: center;
 }
 
 .envelope::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  z-index: 4;
-  border-top: 130px solid envelope-tab;
-  border-right: 150px solid transparent;
-  border-left: 150px solid transparent;
-  transform-origin: top;
-  transition: all 0.5s ease-in-out 0.7s;
+    content: "";
+    position: absolute;
+    top: 0;
+    z-index: 4;
+    border-top: 130px solid envelope-tab;
+    border-right: 150px solid transparent;
+    border-left: 150px solid transparent;
+    transform-origin: top;
+    transition: all 0.5s ease-in-out 0.7s;
 }
 
 .envelope::after {
-  content: "";
-  position: absolute;
-  z-index: 2;
-  width: 0px;
-  height: 0px;
-  border-top: 130px solid transparent;
-  border-right: 150px solid envelope-cover;
-  border-bottom: 100px solid envelope-cover;
-  border-left: 150px solid envelope-cover;
+    content: "";
+    position: absolute;
+    z-index: 2;
+    width: 0px;
+    height: 0px;
+    border-top: 130px solid transparent;
+    border-right: 150px solid envelope-cover;
+    border-bottom: 100px solid envelope-cover;
+    border-left: 150px solid envelope-cover;
 }
 
 .envelopeBottomCover {
-  position: absolute;
-  z-index: 3;
-  width: 100%;
-  height: 60%;
-  transform-origin: bottom;
-  border-top: 100px solid transparent;
-  border-right: 150px solid transparent;
-  border-bottom: 130px solid envelope-cover-2;
-  border-left: 150px solid transparent;
+    position: absolute;
+    z-index: 3;
+    width: 100%;
+    height: 60%;
+    transform-origin: bottom;
+    border-top: 100px solid transparent;
+    border-right: 150px solid transparent;
+    border-bottom: 130px solid envelope-cover-2;
+    border-left: 150px solid transparent;
 }
 
 .letter {
-  width: 80%;
-  height: fit-content;
-  position: absolute;
-  top: 20px;
-  background: primary;
-  text-align: center;
-  transition: all 1s ease-in-out;
-  box-shadow: 0 0 5px shadow-color;
-  padding: 10px;
-  transition: all 1s ease-in-out;
+    width: 80%;
+    height: fit-content;
+    position: absolute;
+    top: 20px;
+    background: primary;
+    text-align: center;
+    transition: all 1s ease-in-out;
+    box-shadow: 0 0 5px shadow-color;
+    padding: 10px;
+    visibility: hidden;
+    transition: all 1s ease-in-out;
 }
 
 .heart {
-  position: absolute;
-  bottom: 95px;
-  left: 50%;
-  width: 15px;
-  height: 15px;
-  background: heart-color;
-  opacity: 100;
-  z-index: 1004;
-  transform: translate(-50%, -20%) rotate(45deg);
-  transition: transform 0.5s ease-in-out 1s;
-  box-shadow: 0 1px 6px shadow-color;
-  cursor: pointer;
+    position: absolute;
+    bottom: 95px;
+    left: 50%;
+    width: 15px;
+    height: 15px;
+    background: heart-color;
+    opacity: 100;
+    z-index: 1004;
+    transform: translate(-50%, -20%) rotate(45deg);
+    transition: transform 0.5s ease-in-out 1s;
+    box-shadow: 0 1px 6px shadow-color;
+    cursor: pointer;
 }
-.heart:before, 
+
+.heart:before,
 .heart:after {
-  content: "";
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  background-color: heart-color;
-  border-radius: 50%;
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: heart-color;
+    border-radius: 50%;
 }
+
 .heart:before {
-  top: -7.5px;
+    top: -7.5px;
 }
+
 .heart:after {
-  right: 7.5px;
+    right: 7.5px;
 }
 
 .flap {
-  
-  top: -550px;
+    top: -550px;
 }
+
 .flap .envelopeWrapper {
-  transform: scale(1.5);
-  cursor: default;
+    transform: scale(1.5);
+    cursor: default;
 }
+
 .flap .envelope:before {
-  transform: rotateX(180deg);
-  z-index: 0;
+    transform: rotateX(180deg);
+    z-index: 0;
 }
+
 .flap .letter {
-  top: -400px;
-  transition-delay: 1s;
+    top: -400px;
+    transition-delay: 1s;
+    visibility: visible;
 }
+
 .flap .heart {
-  opacity: 0;
-  transform: rotate(90deg);
-  transition-delay: 0.4s;
+    opacity: 0;
+    transform: rotate(90deg);
+    transition-delay: 0.4s;
 }

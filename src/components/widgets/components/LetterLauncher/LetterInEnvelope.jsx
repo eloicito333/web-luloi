@@ -49,7 +49,7 @@ function LetterInEnvelope({ onClick, letterHasBeenRead, handleBackdropClick, isL
                   <p>
                     T&apos;estimo per sempre.
                   </p>
-                  <span className="w-full text-end">Eloi Bul Cuadrat</span>
+                  <span className="w-full text-end">Eloi Buil Cuadrat</span>
               </div>
             </div>
             <div className={styles.envelopeBottomCover}></div>

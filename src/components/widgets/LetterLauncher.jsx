@@ -51,7 +51,7 @@ function LetterLauncher() {
     }, 900)
   }
   return (
-    <WidgetCard className="overflow-visible static p-0 m-0 w-auto h-auto">
+    <WidgetCard className="overflow-visible static p-0 m-0 h-auto">
       <div className="w-full h-full p-2 m-0 flex flex-col justify-center items-center relative" onClick={handleCardClick}>
         <h3 className="text-xl sm:text-xl font-semibold">💌 Per aqui hi ha novetats 🤭</h3>
         {!hasLetterBeenRead && (
