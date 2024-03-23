@@ -3,7 +3,7 @@
 import { Button } from '@nextui-org/react'
 import React, { useEffect, useState } from 'react'
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { getNotificationToken } from '@/lib/firebase.client';
 
 function NotificationComponents({notificationState, openModal}) {
@@ -65,22 +65,24 @@ function NotificationComponents({notificationState, openModal}) {
     }
   }
 
-  if(hasNotificationPermision) return null
-
   return (
-    <div className="w-full flex justify-center items-center">
-      <Button
-          className="text-xl font-bold py-6"
-          variant="flat"
-          color="secondary"
-          isLoading={isButtonLoading}
-          onClick={handleActivateNotificationsButtonClick}
-          as={motion.button}
-          animate={{opacity: 1, y: 0}}
-          initial={{opacity: 0, y: -30}}
-          transition={{duration: .5, delay: .005}}
-        >Activa les notificacions 🔔</Button>
-    </div>
+    <AnimatePresence>
+      {hasNotificationPermision && (
+        <div className="w-full flex justify-center items-center min-w-[334.55px] sm:min-w-[401.42px]">
+          <Button
+              className="text-xl font-bold py-6"
+              variant="flat"
+              color="secondary"
+              isLoading={isButtonLoading}
+              onClick={handleActivateNotificationsButtonClick}
+              as={motion.button}
+              animate={{opacity: 1, y: 0}}
+              initial={{opacity: 0, y: -30}}
+              transition={{duration: .5, delay: .005}}
+            >Activa les notificacions 🔔</Button>
+        </div>
+      )}
+    </AnimatePresence>
   )
 }
 

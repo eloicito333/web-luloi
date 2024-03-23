@@ -7,7 +7,6 @@ import ActivatePWAModal from '@/components/modals/ActivatePWAModal';
 import MoreContentSoon from '@/components/widgets/MoreContentSoon';
 import LetterLauncher from '@/components/widgets/LetterLauncher';
 import CounterWidget from '@/components/widgets/CounterWidget';
-import { motion } from 'framer-motion'
 
 function Dashboard() {
   const [hasNotificationPermision, setHasNotificationPermission] = useLocalStorage('hasNotificationPermision', false)
@@ -33,22 +32,15 @@ function Dashboard() {
       <ActivatePWAModal setIsPageLoockingClear={setIsPageLoockingClear} openModalRef={openModalRef} />
       <NotificationComponents notificationState={[hasNotificationPermision, setHasNotificationPermission]} openModal={openModal} />
 
-      <motion.div 
+      <div 
         className='flex justify-center items-center'
-        variants={{
-          up: {y: -30},
-          normal: {y: 0}
-        }}
-        initial={hasNotificationPermision ? normal : up}
-        animate={normal}
-        transition={{duration: .5, delay: .005}}
       >
           <div className="flex flex-col justify-center items-center gap-4">
             <LetterLauncher />
             <CounterWidget isPageLoockingClear={isPageLoockingClear} initialTime={new Date()}/>
             <MoreContentSoon />
           </div>
-      </motion.div>
+      </div>
     </div>
   )
 }
