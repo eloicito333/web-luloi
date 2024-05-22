@@ -54,12 +54,7 @@ function HeartConfetti() {
       spread: 120,
       startVelocity: 45,
     });
-<<<<<<< Updated upstream
   }, [canvasRef, heartShape])
-=======
-  }, [canvasRef])
-  if(globalThis?.window === undefined) return
->>>>>>> Stashed changes
 
   return (
     <canvas
