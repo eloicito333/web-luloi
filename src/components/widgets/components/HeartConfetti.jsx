@@ -1,15 +1,16 @@
+"use client"
+
 import confetti from 'canvas-confetti'
 import React, { useEffect, useRef } from 'react'
 
-const heartShape = confetti.shapeFromPath({
-  path: 'M167 72c19,-38 37,-56 75,-56 42,0 76,33 76,75 0,76 -76,151 -151,227 -76,-76 -151,-151 -151,-227 0,-42 33,-75 75,-75 38,0 57,18 76,56z',
-  matrix: [0.03333333333333333, 0, 0, 0.03333333333333333, -5.566666666666666, -5.533333333333333]
-});
-
 function HeartConfetti() {
+  const heartShape = confetti.shapeFromPath({
+    path: 'M167 72c19,-38 37,-56 75,-56 42,0 76,33 76,75 0,76 -76,151 -151,227 -76,-76 -151,-151 -151,-227 0,-42 33,-75 75,-75 38,0 57,18 76,56z',
+    matrix: [0.03333333333333333, 0, 0, 0.03333333333333333, -5.566666666666666, -5.533333333333333]
+  })
+
   const canvasRef = useRef(null)
   useEffect(() => {
-    if(globalThis.window === undefined) return
     const canvasCurrent = canvasRef.current
     const myCanvas = confetti.create(canvasCurrent, {
       resize: true,
@@ -53,8 +54,7 @@ function HeartConfetti() {
       spread: 120,
       startVelocity: 45,
     });
-  }, [canvasRef])
-  if(globalThis.window === undefined) return
+  }, [canvasRef, heartShape])
 
   return (
     <canvas
