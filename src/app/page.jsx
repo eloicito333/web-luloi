@@ -1,8 +1,8 @@
 'use client';
 
 import AnimatedBtn from '@/components/AnimatedBtn';
-import AnimatedCircles from '@/components/AnimatedCircles';
-import AnimatedText from '@/components/AnimatedText'
+import AnimatedCircles from '@/components/initialPageComponents/AnimatedCircles';
+import AnimatedText from '@/components/initialPageComponents/AnimatedText'
 import ActivatePWAModal from '@/components/modals/ActivatePWAModal';
 import { calculateTextDelay } from '@/lib/animationTimeline';
 import { signIn } from 'next-auth/react';
