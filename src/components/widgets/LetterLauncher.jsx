@@ -3,11 +3,13 @@ import WidgetCard from './components/WidgetCard'
 import LetterInEnvelope from './components/LetterLauncher/LetterInEnvelope'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
+import { APP_VERSION } from '@/data/versions'
 
 function LetterLauncher() {
+  console.log(APP_VERSION)
   const [isLetterOpened, setIsLetterOpened ] = useState(false)
-  const [hasLetterBeenRead, setHasLetterBeenRead] = useLocalStorage("hasLetterBeenRead", undefined)
-  console.log(hasLetterBeenRead)
+  const [isLetterWidgetNew, setIsLetterWidgetNew] = useLocalStorage("isLetterWidgetNew", undefined)
+  console.log(isLetterWidgetNew)
 
   const [isLetterOpened_, setIsLetterOpened_] = useState(false)
 
@@ -17,24 +19,26 @@ function LetterLauncher() {
       (async () => {
         const response = await fetch('/api/widgetIsNew?widget=letterWidget', {
           method: 'POST',
-          body: JSON.stringify({widgetState: true})
+          body: JSON.stringify({
+            versionSeen: APP_VERSION
+          })
         })
         if(response.status !== 200) throw new Error('error while posting letterWidget state')
-        setHasLetterBeenRead(true)
+        setIsLetterWidgetNew(false)
       })()
     }
   }
 
   useEffect(() => {
-    if (hasLetterBeenRead === undefined) {
+    if (isLetterWidgetNew === undefined) {
       (async () => {
         const response = await fetch('/api/widgetIsNew?widget=letterWidget')
         if(response.status !== 200) throw new Error('error while retrieving letterWidget state')
-        const currentState = (await response.json()).widgetIsNew
-        if(!currentState) {
-          throw new Error('error while retrieving lastAniversaryDateSeen data')
+        const currentState = (await response.json())?.widgetIsNew
+        if(currentState === undefined) {
+          throw new Error('error while retrieving Letter Widget state')
         }
-        setHasLetterBeenRead(currentState)
+        setIsLetterWidgetNew(currentState)
       })()
     }
   })
@@ -51,10 +55,10 @@ function LetterLauncher() {
     }, 900)
   }
   return (
-    <WidgetCard className="overflow-visible static p-0 m-0 sm:p-0 sm:m-0 h-auto">
+    <WidgetCard className="overflow-visible static p-0 m-0 sm:p-0 sm:m-0 h-auto cursor-pointer">
       <div className="w-full h-full p-2 m-0 flex flex-col justify-center items-center relative" onClick={handleCardClick}>
         <h3 className="text-xl sm:text-xl font-semibold">💌 La carta dels 6 mesooos 🤭</h3>
-        {!hasLetterBeenRead && (
+        {!!isLetterWidgetNew && (
           <div className="absolute -top-1 -right-1 w-3 aspect-square">
             <span className="absolute inline-flex  w-3 aspect-square bg-secondary rounded-full"></span>
             <span className="absolute inline-flex w-full h-full bg-secondary opacity-75 rounded-full animate-ping"></span>
