@@ -28,7 +28,7 @@ export const metadata = {
     locale: 'ca_CA',
     type: 'website',
     images: {
-      url: '/opengraph-image.png',
+      url: '/images/openGraph/opengraph-image.png',
       alt: `Foto de la Lucia i l'Eloi fent mewing`
     }
   },
