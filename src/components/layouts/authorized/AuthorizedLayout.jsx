@@ -14,9 +14,9 @@ function AuthorizedLayout({children}) {
       <header className='text-white'>
         <AuthorizedNavbar user={user} />
       </header>
-      <main className='h-full text-black'>
+      <div className='h-full text-black'>
         {children}
-      </main>
+      </div>
     </div>
   )
 }
