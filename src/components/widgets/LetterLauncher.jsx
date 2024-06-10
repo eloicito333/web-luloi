@@ -6,10 +6,8 @@ import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { APP_VERSION } from '@/data/versions'
 
 function LetterLauncher() {
-  console.log(APP_VERSION)
   const [isLetterOpened, setIsLetterOpened ] = useState(false)
   const [isLetterWidgetNew, setIsLetterWidgetNew] = useLocalStorage("isLetterWidgetNew", undefined)
-  console.log(isLetterWidgetNew)
 
   const [isLetterOpened_, setIsLetterOpened_] = useState(false)
 
