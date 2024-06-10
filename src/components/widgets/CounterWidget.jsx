@@ -1,7 +1,7 @@
 "use client"
 
 import { Button, CardBody, CardFooter, CardHeader } from '@nextui-org/react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {AnimatePresence, motion } from 'framer-motion'
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import WidgetCard from './components/WidgetCard';
@@ -114,6 +114,7 @@ const CounterWidget = ({initialTime, isPageLoockingClear}) => {
         closed: {height: 'min-content',}
       }}
       animate={isAccordionOpened ? "open" : "closed"}
+      suppressHydrationWarning 
     >
       <Button
         className="w-6 h-6 min-w-0 min-h-0 aspect-square rounded-full p-0 bg-white/50 bg-opacity-50 flex justify-center items-center absolute right-2 top-2 sm:right-3 sm:top-3 z-[50]"
@@ -139,8 +140,8 @@ const CounterWidget = ({initialTime, isPageLoockingClear}) => {
       <CardBody className="flex flex-row justify-center items-start gap-2 tabular-nums">
         {
           displayableGroups.map((group, index) => (
-            <>
-              <div className="text-center flex flex-col justify-center items-center gap-2" key={index}>
+            <React.Fragment key={index}>
+              <div className="text-center flex flex-col justify-center items-center gap-2" >
                 <div className="flex flex-row justify-center items-center gap-1">
                   {
                     Array.from( {length: group.digits}, (_, digit) => (<span className="text-3xl sm:text-4xl font-bold bg-white/50 rounded-lg p-2" key={`digit:${digit}:${index}`}>{
@@ -151,9 +152,9 @@ const CounterWidget = ({initialTime, isPageLoockingClear}) => {
                 <p className="block">{group.name}</p>
               </div>
               {(index < displayableGroups.length - 1) && (
-                <span className="text-5xl font-bold" key={`${index}:`}>:</span>
+                <span className="text-5xl font-bold" >:</span>
               )}
-            </>
+            </React.Fragment>
           ))
         }
       </CardBody>
