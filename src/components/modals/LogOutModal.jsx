@@ -22,7 +22,7 @@ function LogOutModal({openModalRef}) {
     
     <button className="hidden absolute" onClick={onOpen} ref={openModalRef}/>
 
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={handleModalClose} isDismissable={true} isKeyboardDismissDisabled={true} className='w-fit px-7 py-4'>
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={handleModalClose} isDismissable={true} isKeyboardDismissDisabled={true} placement='center' className='w-fit px-7 py-4' >
         <ModalContent>
           {(onClose) => {
             const logOutBtnHandler = () => {
