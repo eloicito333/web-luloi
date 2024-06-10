@@ -1,9 +1,9 @@
 "use client"
+import LogOutModal from '@/components/modals/LogOutModal'
 import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Navbar, NavbarBrand, NavbarContent } from '@nextui-org/react'
-import { signOut } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useRef } from 'react'
 
 const userConfigItems = []
 const adminConfigItems = [
@@ -14,7 +14,8 @@ const adminConfigItems = [
 ]
 
 function AuthorizedNavbar({user}) {
-  const handleLogoutClick = () => {signOut()}
+  const openModalRef = useRef(null)
+  const handleLogoutClick = () => {openModalRef.current.click()}
 
   return (
     <Navbar className='bg-pink-300/50' isBordered>
@@ -51,6 +52,7 @@ function AuthorizedNavbar({user}) {
           </DropdownMenu>
         </Dropdown>
       </NavbarContent>
+      <LogOutModal openModalRef={openModalRef} />
     </Navbar>
   )
 }
