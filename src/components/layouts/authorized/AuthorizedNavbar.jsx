@@ -19,7 +19,7 @@ function AuthorizedNavbar({user}) {
 
   return (
     <Navbar className='bg-pink-300/50' isBordered>
-      <NavbarBrand className="flex justify-start items-center gap-2">
+      <NavbarBrand as={Link} href={"/dashboard"} className="flex justify-start items-center gap-2">
         <Image src="/icon.png" width={24} height={24} alt={"Icona de la pàgina"}/>
         <p className="title-gradient text-2xl font-bold">LULOI</p>
       </NavbarBrand>
