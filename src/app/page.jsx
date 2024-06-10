@@ -1,6 +1,6 @@
 'use client';
 
-import AnimatedBtn from '@/components/AnimatedBtn';
+import AnimatedBtn from '@/components/initialPageComponents/AnimatedBtn';
 import AnimatedCircles from '@/components/initialPageComponents/AnimatedCircles';
 import AnimatedText from '@/components/initialPageComponents/AnimatedText'
 import ActivatePWAModal from '@/components/modals/ActivatePWAModal';

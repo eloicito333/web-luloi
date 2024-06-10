@@ -7,11 +7,13 @@ import ActivatePWAModal from '@/components/modals/ActivatePWAModal';
 import MoreContentSoon from '@/components/widgets/MoreContentSoon';
 import LetterLauncher from '@/components/widgets/LetterLauncher';
 import CounterWidget from '@/components/widgets/CounterWidget';
+import { useAppContext } from '@/components/Providers/AppProvider';
+
 
 function Dashboard() {
   const [hasNotificationPermision, setHasNotificationPermission] = useLocalStorage('hasNotificationPermision', false)
 
-  const [isPageLoockingClear, setIsPageLoockingClear] = useState(false)
+  const {isPageLookingClear, setIsPageLookingClear} = useAppContext()
 
   const openModalRef = useRef(null)
   const openModal = () => {openModalRef?.current?.click()}
@@ -21,7 +23,7 @@ function Dashboard() {
     if (isIOS && !globalThis?.window.matchMedia('(display-mode: standalone)').matches) openModalRef?.current?.click()
 
     else {
-      setIsPageLoockingClear(true)
+      setIsPageLookingClear(true)
     }
   }, [openModalRef])
 
@@ -29,7 +31,7 @@ function Dashboard() {
   return (
     <div className="p-4 flex flex-col gap-4 items-center h-full bg-gradient-to-t from-indigo-500 via-purple-400 to-pink-300 overflow-auto scrollbar-hide">
 
-      <ActivatePWAModal setIsPageLoockingClear={setIsPageLoockingClear} openModalRef={openModalRef} />
+      <ActivatePWAModal openModalRef={openModalRef} />
       <NotificationComponents notificationState={[hasNotificationPermision, setHasNotificationPermission]} openModal={openModal} />
 
       <div 
@@ -37,7 +39,7 @@ function Dashboard() {
       >
           <div className="flex flex-col justify-center items-center gap-4">
             <LetterLauncher />
-            <CounterWidget isPageLoockingClear={isPageLoockingClear} initialTime={new Date()}/>
+            <CounterWidget isPageLookingClear={isPageLookingClear} initialTime={new Date()}/>
             <MoreContentSoon />
           </div>
       </div>

@@ -1,12 +1,13 @@
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@nextui-org/react'
 import React from 'react'
+import { useAppContext } from '../Providers/AppProvider';
 
-function ActivatePWAModal({openModalRef, setIsPageLoockingClear}) {
+function ActivatePWAModal({openModalRef}) {
+  const {setIsPageLookingClear} = useAppContext()
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   const handleModalClose = () => {
-    console.log("modal closed")
-    setIsPageLoockingClear(true)
+    setIsPageLookingClear(true)
   }
 
   return (

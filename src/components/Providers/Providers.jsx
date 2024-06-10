@@ -2,12 +2,15 @@
 
 import { NextUIProvider } from "@nextui-org/react"
 import { SessionProvider } from 'next-auth/react'
+import { AppProvider } from "./AppProvider"
 
 function Providers({children, nextAuthSession}) {
   return (
     <NextUIProvider>
       <SessionProvider session={nextAuthSession}>
-        {children}
+        <AppProvider>
+          {children}
+        </AppProvider>
       </SessionProvider>
     </NextUIProvider>
   )
