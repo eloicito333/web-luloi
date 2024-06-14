@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import WidgetCard from './components/WidgetCard'
-import LetterInEnvelope from './components/LetterLauncher/LetterInEnvelope'
+import WidgetCard from '../components/WidgetCard'
+import LetterInEnvelope from '../components/LetterLauncher/LetterInEnvelope'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { APP_VERSION } from '@/data/versions'

@@ -4,11 +4,12 @@ import { Button, CardBody, CardFooter, CardHeader } from '@nextui-org/react';
 import React, { useState, useEffect } from 'react';
 import {AnimatePresence, motion } from 'framer-motion'
 import { MdKeyboardArrowLeft } from "react-icons/md";
-import WidgetCard from './components/WidgetCard';
+import WidgetCard from '../components/WidgetCard';
 import { useWindowSize } from '@/hooks/useWindowSize';
-import HeartConfetti from './components/HeartConfetti';
+import HeartConfetti from '../components/HeartConfetti';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { daysDiff, getDigitFromEnd, hoursDiff, minutesDiff, monthsDiff, secondsDiff } from '@/lib/counterWidgetTimeFormatters';
+import { SM_SCREEN_SIZE } from '@/lib/consts';
 
 const displayableGroups = [
   {
@@ -51,7 +52,6 @@ const resumedGroups = [
   }
 ]
 
-const SM_SCREEN_SIZE = 640
 
 const CounterWidget = ({initialTime, isPageLoockingClear}) => {
   const counterDate = new Date(process.env.NEXT_PUBLIC_counter_DATE || "2023-09-23T00:00:00")

@@ -4,9 +4,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import NotificationComponents from '@/components/notifications/NotificationComponents';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import ActivatePWAModal from '@/components/modals/ActivatePWAModal';
-import MoreContentSoon from '@/components/widgets/MoreContentSoon';
-import LetterLauncher from '@/components/widgets/LetterLauncher';
-import CounterWidget from '@/components/widgets/CounterWidget';
+import MoreContentSoon from '@/components/widgets/dashboard/MoreContentSoon';
+import LetterLauncher from '@/components/widgets/dashboard/LetterLauncher';
+import CounterWidget from '@/components/widgets/dashboard/CounterWidget';
 import { useAppContext } from '@/components/Providers/AppProvider';
 
 

@@ -1,0 +1,1 @@
+export const SM_SCREEN_SIZE = 640

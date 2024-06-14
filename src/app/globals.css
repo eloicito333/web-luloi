@@ -6,6 +6,8 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --color-cian-degradate: #65d6f9;
+  --color-purple-degradate: #9300EA;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -31,7 +33,17 @@
 }
 
 .title-gradient {
-  background: -webkit-linear-gradient(35deg, #65d6f9, #9300EA 80%);
+  background: -webkit-linear-gradient(35deg, var(--color-cian-degradate), var(--color-purple-degradate) 80%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.navbar-menu-toggle {
+  span {
+    &:not(:first-child) {
+      &:before, &:after {
+        background-color: var(--color-purple-degradate);
+      }
+    }
+  }
 }

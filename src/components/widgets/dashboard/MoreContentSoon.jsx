@@ -1,5 +1,5 @@
 import React from 'react'
-import WidgetCard from './components/WidgetCard'
+import WidgetCard from '../components/WidgetCard'
 
 function MoreContentSoon() {
   return (

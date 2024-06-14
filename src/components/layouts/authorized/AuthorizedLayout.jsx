@@ -11,9 +11,7 @@ function AuthorizedLayout({children}) {
   
   return (
     <div className='bg-pink-200 w-full h-screen'>
-      <header className='text-white'>
-        <AuthorizedNavbar user={user} />
-      </header>
+      <AuthorizedNavbar user={user} />
       <div className='h-full text-black'>
         {children}
       </div>
