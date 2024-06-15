@@ -10,9 +10,9 @@ export default withAuth(
     
     /* return NextResponse.next() */
     if (req.nextauth?.token?.role === "USER") {
-      let url = new URL("/no-authorized", req.url)
+      let url = new URL("/not-authorized", req.url)
       url.searchParams.append("redirect", req.url)
-      return NextResponse.redirect(url)
+      return NextResponse.rewrite(url)
     }
     else if (req.nextUrl.pathname === "/" && !req.nextauth?.token) return NextResponse.next()
     else if (req.nextUrl.pathname.startsWith('/api/notifications') && req.nextauth?.token?.role !== "ADMIN" && req.nextauth?.token?.role !== "AUTH") return NextResponse.status(403)
