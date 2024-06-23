@@ -25,7 +25,7 @@ function Dashboard() {
     else {
       setIsPageLookingClear(true)
     }
-  }, [openModalRef])
+  }, [openModalRef, setIsPageLookingClear])
 
 
   return (

@@ -21,7 +21,7 @@ function AdminLayoutComponent({children}) {
   const windowSize = useWindowSize()
   useEffect(() => {
     setIsAdminSideBarToggleable(windowSize.width < SM_SCREEN_SIZE)
-  }, [windowSize.width])
+  }, [windowSize.width, setIsAdminSideBarToggleable])
 
   const asideVariants = {
     open: {
