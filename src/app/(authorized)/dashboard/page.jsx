@@ -7,6 +7,7 @@ import ActivatePWAModal from '@/components/modals/ActivatePWAModal';
 import MoreContentSoon from '@/components/widgets/dashboard/MoreContentSoon';
 import CounterWidget from '@/components/widgets/dashboard/CounterWidget';
 import { useAppContext } from '@/components/Providers/AppProvider';
+import LetterLauncherGroup from '@/components/widgets/dashboard/LetterLauncherGroup';
 
 
 function Dashboard() {
