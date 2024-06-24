@@ -35,7 +35,7 @@ export const GET = async (request) => {
 }
 
 
-export const POST = async (request) => {
+export const PUT = async (request) => {
   try {
     const req = await request.json()
 

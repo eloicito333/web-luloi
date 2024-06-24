@@ -91,7 +91,7 @@ const CounterWidget = ({initialTime, isPageLoockingClear}) => {
       (async () => {
         const currentDate = monthsDiff(counterDate, now)
         const response = await fetch('/api/counterWidget/lastAniversaryDateSeen', {
-          method: 'POST',
+          method: 'PUT',
           body: JSON.stringify({currentDate})
         })
         if(response.status !== 200) throw new Error('error while posting lastAniversaryDateSeen data')

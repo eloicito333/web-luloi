@@ -17,7 +17,7 @@ function LetterLauncher({title, id, children}) {
     if (isLetterOpened) {
       (async () => {
         const response = await fetch(`/api/widgetIsNew?widget=${widgetId}`, {
-          method: 'POST',
+          method: 'PUT',
           body: JSON.stringify({
             versionSeen: APP_VERSION
           })
