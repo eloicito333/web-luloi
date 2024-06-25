@@ -37,9 +37,9 @@ export const GET = async (request) => {
 
 export const POST = async (request) => {
   try {
+    //getting the request body data
     const req = await request.json()
-
-    const currentDate = req.currentDate
+    const {currentDate} = req
 
     if(!currentDate) {
       return NextResponse.json({error: 'currentDate missing in body'}, {status: 400})
