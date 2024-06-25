@@ -107,7 +107,7 @@ const CounterWidget = ({initialTime, isPageLoockingClear}) => {
   return (
     <WidgetCard
       className="tabular-nums"
-      as={motion.div}
+      as={motion.section}
       transition={{duration: .3}}
       variants={{
         open: {height: 'auto',},
