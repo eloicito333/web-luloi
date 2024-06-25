@@ -5,9 +5,9 @@ import NotificationComponents from '@/components/notifications/NotificationCompo
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import ActivatePWAModal from '@/components/modals/ActivatePWAModal';
 import MoreContentSoon from '@/components/widgets/dashboard/MoreContentSoon';
-import LetterLauncher from '@/components/widgets/dashboard/LetterLauncher';
 import CounterWidget from '@/components/widgets/dashboard/CounterWidget';
 import { useAppContext } from '@/components/Providers/AppProvider';
+import LetterLauncherGroup from '@/components/widgets/dashboard/LetterLauncherGroup';
 
 
 function Dashboard() {
@@ -25,7 +25,7 @@ function Dashboard() {
     else {
       setIsPageLookingClear(true)
     }
-  }, [openModalRef])
+  }, [openModalRef, setIsPageLookingClear])
 
 
   return (
@@ -38,7 +38,7 @@ function Dashboard() {
         className='flex justify-center items-center'
       >
           <div className="flex flex-col justify-center items-center gap-4">
-            <LetterLauncher />
+            <LetterLauncherGroup />
             <CounterWidget isPageLookingClear={isPageLookingClear} initialTime={new Date()}/>
             <MoreContentSoon />
           </div>
