@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 const AppContext = createContext()
 
@@ -9,7 +9,18 @@ export const useAppContext = () => useContext(AppContext)
 export const AppProvider = ({children}) => {
   const [isPageLookingClear, setIsPageLookingClear] = useState(false)
   const [isAdminSideBarOpen, setIsAdminSideBarOpen] = useState(false)
-  const [isAdminSideBarToggleable,setIsAdminSideBarToggleable] = useState(false)
+  const [isAdminSideBarToggleable,setIsAdm1inSideBarToggleable] = useState(false)
+  const [now, setNow] = useState(new Date())
+
+  useEffect(() => {    
+    const interval = setInterval(() => {
+      const newDate = new Date()
+      setNow(newDate)
+      console.log(newDate)
+    }, 1000); 
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <AppContext.Provider value={{
@@ -18,7 +29,8 @@ export const AppProvider = ({children}) => {
       isAdminSideBarOpen,
       setIsAdminSideBarOpen,
       isAdminSideBarToggleable,
-      setIsAdminSideBarToggleable
+      setIsAdm1inSideBarToggleable,
+      now
     }}>
       {children}
     </AppContext.Provider>

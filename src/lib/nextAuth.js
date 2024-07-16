@@ -1,12 +1,18 @@
+import dotenv from 'dotenv';
+
 import GoogleProvider from "next-auth/providers/google";
 import { FirestoreAdapter } from "@auth/firebase-adapter"
 import { cert } from "firebase-admin/app"
 import { getServerSession } from "next-auth";
+//import { db } from "@/lib/firebase";
 
-export const authOptions = {
+export const authOptions = () => {
+  dotenv.config();
+
+  return {
   // Configure one or more authentication providers
   providers: [
-    GoogleProvider({
+    GoogleProvider.default({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       profile(profile) {
@@ -17,6 +23,7 @@ export const authOptions = {
           email: profile.email,
           image: profile.picture,
           role: profile?.role ?? (process.env.NEXTAUTH_DEFAULT_ROL || "USER"),
+          personId: profile?.personId
         };
       },
     })
@@ -29,22 +36,27 @@ export const authOptions = {
     })
   }),
   session: {
-    strategy: 'jwt'
+    strategy: 'jwt',
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.role = user.role;
+      if (user) {
+        token.role = user.role;
+      }
       return token;
     },
     async session({ session, token }) {
-      if (token && token.role) {
+      if (token?.role) {
         session.user.role = token.role;
+      }
+      if (token?.personId) {
+        session.user.personId = token.personId
       }
       return session;
     },
   }   
-}
+}}
 
 export const getAuthSession = () => {
-  return getServerSession(authOptions);
+  return getServerSession(authOptions());
 };

@@ -1,0 +1,7 @@
+.closedChat {
+  clip-path: circle(3.5rem at calc(100vw - 5rem) calc(100dvh - 5rem));
+}
+
+.openChat {
+  clip-path: circle(max(200dvh, 200vw) at calc(100vw - 5rem) calc(100dvh - 5rem));
+}

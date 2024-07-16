@@ -1,0 +1,5 @@
+{
+  "watch": ["src", "sockets"],
+  "ext": "js,json,mjs",
+  "exec": "node index.mjs"
+}

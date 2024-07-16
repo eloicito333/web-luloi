@@ -10,6 +10,7 @@ import HeartConfetti from '../components/HeartConfetti';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { daysDiff, getDigitFromEnd, hoursDiff, minutesDiff, monthsDiff, secondsDiff } from '@/lib/counterWidgetTimeFormatters';
 import { SM_SCREEN_SIZE } from '@/lib/consts';
+import { useAppContext } from '@/components/Providers/AppProvider';
 
 const displayableGroups = [
   {
@@ -53,25 +54,17 @@ const resumedGroups = [
 ]
 
 
-const CounterWidget = ({initialTime, isPageLoockingClear}) => {
+const CounterWidget = () => {
   const counterDate = new Date(process.env.NEXT_PUBLIC_counter_DATE || "2023-09-23T00:00:00")
 
   const windowSize = useWindowSize()
   let isSmScreen = windowSize.width < SM_SCREEN_SIZE
 
-  const [now, setNow] = useState(initialTime)
+  const {now, isPageLoockingClear} = useAppContext()
   const [isAccordionOpened, setIsAccordionOpened] = useState(false)
 
   const [lastAniversaryDateSeen, setLastAniversaryDateSeen] = useLocalStorage("lastAniversaryDateSeen", undefined)
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const newDate = new Date()
-      setNow(newDate)
-    }, 1000); 
-
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     if (lastAniversaryDateSeen === undefined) {
@@ -91,7 +84,7 @@ const CounterWidget = ({initialTime, isPageLoockingClear}) => {
       (async () => {
         const currentDate = monthsDiff(counterDate, now)
         const response = await fetch('/api/counterWidget/lastAniversaryDateSeen', {
-          method: 'PUT',
+          method: 'POST',
           body: JSON.stringify({currentDate})
         })
         if(response.status !== 200) throw new Error('error while posting lastAniversaryDateSeen data')

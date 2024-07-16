@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import NotificationComponents from '@/components/notifications/NotificationComponents';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import ActivatePWAModal from '@/components/modals/ActivatePWAModal';
@@ -13,7 +13,7 @@ import LetterLauncherGroup from '@/components/widgets/dashboard/LetterLauncherGr
 function Dashboard() {
   const [hasNotificationPermision, setHasNotificationPermission] = useLocalStorage('hasNotificationPermision', false)
 
-  const {isPageLookingClear, setIsPageLookingClear} = useAppContext()
+  const {setIsPageLookingClear} = useAppContext()
 
   const openModalRef = useRef(null)
   const openModal = () => {openModalRef?.current?.click()}
@@ -39,7 +39,7 @@ function Dashboard() {
       >
           <div className="flex flex-col justify-center items-center gap-4">
             <LetterLauncherGroup />
-            <CounterWidget isPageLookingClear={isPageLookingClear} initialTime={new Date()}/>
+            <CounterWidget/>
             <MoreContentSoon />
           </div>
       </div>
