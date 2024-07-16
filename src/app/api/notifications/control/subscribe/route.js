@@ -1,26 +1,21 @@
+import { ResponseError } from "@/lib/customErrors";
 import { db } from "@/lib/firebase";
-import { getServerSession } from "next-auth";
+import { getUserDoc } from "@/lib/getUserData";
 import { NextResponse } from "next/server";
 
-export const POST = async (request, response) => {
+export const POST = async (request) => {
   try {
-    const session = await getServerSession(request)
-
     const req = await request.json()
 
     //check if request has token
-    if (!req?.token) return NextResponse.json({error: 'token missing in body'}, {status: 400})
+    if (!req?.token) return NextResponse.json({error: 'Token missing in body'}, {status: 400})
 
     //get user id from db
-    const usersRef = db.collection("users")
-    const snapshot = await usersRef.where('email', '==', session.user.email).limit(1).get()
-    if (snapshot.empty) {
-      console.error(`User with email: ${session.user.email} not found in database`);
-      return NextResponse.json({error: `No user found with email ${session.user.email} in database`}, {status: 500})
-    }
+    const user = await getUserDoc(request)
+    if(user instanceof ResponseError) return user.asNextResponse()
 
     //save data to db
-    const data = {userId: snapshot.docs[0].id}
+    const data = {userId: user.id}
     await db.collection('notification-tokens').doc(req.token).set(data);
 
     return NextResponse.json({success: 'the token has been stored successfully'}, {status: 200})

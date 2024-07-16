@@ -10,13 +10,19 @@ const adminRoutes = [
 
 const authRoutes = [
   "/dashboard",
+  "/chat",
   "/api/counterWidget/*",
   "/api/notifications/*",
-  "/isWidgetNew"
+  "/isWidgetNew",
+  "/api/chat/*",
 ]
 
 const publicRoutes = [
-  "/api/auth/*"
+  "/api/auth/*",
+  "/firebase-messaging-sw.js",
+  "/manifest.webmanifest",
+  "/icons/*",
+  "/images/*",
 ]
 
 const adminRoutesPatterns = adminRoutes.map((route) => new UrlPattern(route))
@@ -82,4 +88,4 @@ export default withAuth(
   }
 );
 
-export const config = { matcher: ["/", "/admin/[...path]", "/dashboard", "/api/notifications/[...path]", "/api/counterWidget/[...path]"] };
+export const config = { matcher: "/((?!api|_next/static|_next/image|favicon.ico|icon.png|icon-white.png|apple-icon.png).*)" };

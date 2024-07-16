@@ -67,7 +67,7 @@ function NotificationComponents({notificationState, openModal}) {
 
   return (
     <AnimatePresence>
-      {hasNotificationPermision && (
+      {!hasNotificationPermision && (
         <div className="w-full flex justify-center items-center min-w-[334.55px] sm:min-w-[401.42px]">
           <Button
               className="text-xl font-bold py-6"

@@ -1,7 +1,9 @@
+import tailwindScrollbar from "tailwind-scrollbar"
 const { nextui } = require('@nextui-org/react');
 
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default  {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx,html}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx,html}',
@@ -19,6 +21,7 @@ module.exports = {
   },
   darkMode: "class",
   plugins: [
+    tailwindScrollbar({ nocompatible: true, preferredStrategy: 'pseudoelements' }),
     nextui(),
     function({ addBase, theme }) {
       function extractColorVars(colorObj, colorGroup = '') {

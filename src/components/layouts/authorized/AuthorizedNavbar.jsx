@@ -1,6 +1,7 @@
 "use client"
 
 import { useAppContext } from '@/components/Providers/AppProvider'
+import UserIconFallback from '@/components/UserIconFallback'
 import LogOutModal from '@/components/modals/LogOutModal'
 import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Navbar, NavbarBrand, NavbarContent, NavbarMenuToggle } from '@nextui-org/react'
 import Image from 'next/image'
@@ -50,7 +51,7 @@ function AuthorizedNavbar({user}) {
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
             <Avatar
-              showFallback
+              showFallback={<UserIconFallback name={user.name} />}
               isBordered
               as="button"
               className="transition-transform opacity-100"
