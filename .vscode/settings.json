@@ -1,3 +1,4 @@
 {
-  "scm.experimental.showHistoryGraph": true
+  "scm.experimental.showHistoryGraph": true,
+  "CodeGPT.apiKey": "CodeGPT Plus Beta"
 }

@@ -11,7 +11,7 @@ import { IoMdSend } from "react-icons/io";
 import { RxCross1 } from "react-icons/rx";
 
 
-const CONVERSATION_ID = "FcHLeahElYvnEphhtyOY"
+const CONVERSATION_ID = process.env.NEXT_PUBLIC_DEFAULT_CONVERSATION
 
 const groupMessagesByDay = (messages) => {
   if (!Array.isArray(messages)) return {};
@@ -34,6 +34,8 @@ function OpenChat({className, ...props}) {
   const textAreaRef = useRef(null)
   const chatContainerRef = useRef(null)
   const windowSize = useWindowSize()
+
+  const currentConversationRef = useRef(messages?.[CONVERSATION_ID] || {})
 
   const textAreaAdjust = (element) => {
     element.style.height = "1px";
@@ -81,6 +83,7 @@ function OpenChat({className, ...props}) {
 
   useEffect(() => {
     if (areMessagesLoaded) {
+      currentConversationRef.current = messages[CONVERSATION_ID]
       setGroupedMessages(groupMessagesByDay(messages?.[CONVERSATION_ID]?.messages || []));
     }
   }, [messages, areMessagesLoaded]);
@@ -93,7 +96,7 @@ function OpenChat({className, ...props}) {
     <div className={cn("w-full h-full flex flex-col justify-start items-center", className)} {...props}>
       <div className="h-16 w-full bg-pink-300 flex items-center justify-center">
         <div className="w-full h-full max-w-screen-md flex flex-row justify-between items-center p-8">
-          <ConversationInfo conversation={messages[CONVERSATION_ID]} whoami={whoami} />
+          <ConversationInfo conversationRef={currentConversationRef} whoami={whoami} />
           <button
             onClick={handleCloseChatComponentBtnClick}
             className="bg-transparent border-transparent aspect-square m-0 p-0 w-8 h-8 text-purple-500/50"

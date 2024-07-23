@@ -60,7 +60,7 @@ export class DateTransformer extends Date {
 
   getDateString() {
     const now = new Date()
-    return `${String(this.getDate()).length === 2 ? this.getDate() : "0" + this.getDate()}/${String(this.getMonth()+1).length === 2 ? this.getMonth() : "0" + this.getMonth()}${this.getFullYear() !== now.getFullYear() ? `/${this.getFullYear()}`: ""}`
+    return `${String(this.getDate()).length === 2 ? this.getDate() : "0" + this.getDate()}/${String(this.getMonth()+1).length === 2 ? this.getMonth()+1 : "0" + (this.getMonth()+1)}${this.getFullYear() !== now.getFullYear() ? `/${this.getFullYear()}`: ""}`
   }
 
   getRelativeDate({doubleComa = false} = {}) {

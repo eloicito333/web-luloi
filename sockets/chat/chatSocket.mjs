@@ -17,51 +17,62 @@ class PersonSocketManager {
     return this.#connectedPersons
   }
 
-  /* async setSocketOffLine(socket) {
+  async setSocketOnline(socket) {
+    let newPerson = await ChatDatabase.setPersonOnline(socket.person.id)
+    newPerson.lastConnection = true
+
+    return newPerson
+  }
+
+  async setSocketOffLine(socket) {
     const newPerson = await ChatDatabase.setPersonOffLine(socket.person.id)
     return newPerson
   }
 
-  async chekIfOffLine(socket) {
+  async chekIfOffline(socket) {
     if(!this.#connectedPersons?.[socket.person.id] || !Object.values(this.#connectedPersons[socket.person.id]).find((val) => val === this.#socketStates.connected)) {
       const newPerson = await this.setSocketOffLine(socket)
       return newPerson
     }
     return null
-  } */
+  }
 
-  /* async */ connected(socket) {
-    /* if(this.#connectedPersons?.[socket.person.id] || Object.values(this.#connectedPersons[socket.person.id]).find((val) => val === this.#socketStates.connected)) {
-      urn await ChatDatabase.setPersonOnline(socket.person.id)
-    } */
+  async checkIfNewOnline(socket) {
+    if(!this.#connectedPersons?.[socket.person.id] || !Object.values(this.#connectedPersons[socket.person.id]).find((val) => val === this.#socketStates.connected)) {
+      return await this.setSocketOnline(socket)
+    }
+    return null
+  }
 
+  setConnected(socket) {
     if (!this.#connectedPersons[socket.person.id]) {
       this.#connectedPersons[socket.person.id] = {};
     }
     this.#connectedPersons[socket.person.id][socket.id] = this.#socketStates.connected
-
-    return null
   }
 
-  /* async */ disconnect(socket) {
+  setDisconnected(socket) {
     delete this.#connectedPersons[socket.person.id][socket.id]
     if (!Object.keys(this.#connectedPersons[socket.person.id]).length) delete this.#connectedPersons[socket.person.id]
-    /* const newPerson = await this.chekIfOffLine(socket) */
-    return newPerson
   }
 
-  secondPlane(socket) {
+  setSecondPlane(socket) {
     this.#connectedPersons[socket.person.id][socket.id] = this.#socketStates.secondPlane
   }
 
-  afk(socket) {
+  setAfk(socket) {
     this.#connectedPersons[socket.person.id][socket.id] = this.#socketStates.afk
   }
 
   async getDisconnectedPersons(conversationId) {
+    const reallyConnectedPersons = Object.keys(this.#connectedPersons).reduce((prevPersons, person) => {
+      if(Object.values(this.#connectedPersons[person]).includes(this.#socketStates.connected)) prevPersons.push(person)
+
+      return prevPersons
+    }, [])
     const conversation = await ChatDatabase.getConversation(conversationId)
     return conversation.persons.map((person) => person.id).reduce((disconnectedPersons, personId) => {
-      if(!(personId in this.#connectedPersons)) disconnectedPersons.push(personId)
+      if(!(personId in reallyConnectedPersons)) disconnectedPersons.push(personId)
       
       return disconnectedPersons
     }, [])
@@ -79,23 +90,31 @@ export const chatSocketInit = (io) => {
     return next(new Error("Person can't chat"))
   })
 
-  chatNamespace.on("connection", (socket) => {
+  chatNamespace.on("connection", async (socket) => {
+    const sendPersonChange = async (newPerson) => {
+      const sanitazedPerson = ChatDatabase.sanitazePerson(newPerson)
+      console.log(sanitazedPerson)
+      await Promise.all(socket.person.chatConversations.map(async(conversation) => {
+        socket.to(conversation).emit("person-change", sanitazedPerson, conversation)
+      }))
+    }
     const person = socket.person;
-    /* const newPerson = await  */personManager.connected(socket)
+
+    const newPerson = await personManager.checkIfNewOnline(socket)
+    personManager.setConnected(socket)
+
     console.log("User connected:", person);
+
+    //join socket to its chat rooms
     socket.join(person.id)
     person.chatConversations.forEach((conversation) => {
       socket.join(conversation)
       console.log(`Joined socket ${socket.id} to room ${conversation}`)
     })
 
-    /* if(newPerson) {
-      await Promise.all(socket.person.chatConversations.map(async(conversation) => {
-        socket.to(conversation).emit("person-change", newPerson, room)
-      }))
-    } */
-
-    socket.emit("hievent", "hello world")
+    if(newPerson) {
+      await sendPersonChange(newPerson)
+    }
 
     socket.on("send-message", async (message, room, cb) => {
       console.log("message recieved", message, room)
@@ -131,13 +150,34 @@ export const chatSocketInit = (io) => {
       cb({success: true, message: dbMessage})
     })
 
+    socket.on("visibility-change", async (visibilityState) => {
+      console.log("visibilityState: ", visibilityState)
+      let newPerson = null
+      if(visibilityState === true) {
+        newPerson = await personManager.checkIfNewOnline(socket)
+        personManager.setConnected(socket)
+      }
+      else {
+        personManager.setSecondPlane(socket)
+        newPerson = await personManager.chekIfOffline(socket)
+      }
+
+      if(newPerson !== null) {
+        await sendPersonChange(newPerson)
+      }
+
+      console.log(personManager.connectedPersons)
+    })
+
     socket.on("disconnect", async () => {
-      /* const newPerson = */ personManager.disconnect(socket)
-      /* if(newPerson) {
-        await Promise.all(socket.person.chatConversations.map(async(conversation) => {
-          socket.to(conversation).emit("person-change", newPerson, room)
-        }))
-      } */
+      personManager.setDisconnected(socket)
+
+      const newPerson = await personManager.chekIfOffline(socket)
+
+      if(newPerson !== null) {
+        await sendPersonChange(newPerson)
+      }
+
       console.log("person disconnected: ", personManager.connectedPersons)
     })
 

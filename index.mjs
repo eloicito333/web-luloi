@@ -1,9 +1,14 @@
+import dotenv from "dotenv"
+
 import express from "express";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
 import next from "next";
-import morgan from "morgan";
+//import morgan from "morgan";
 import { chatSocketInit } from "./sockets/chat/chatSocket.mjs";
+
+dotenv.config()
+console.log( process.env.NEXT_PUBLIC_PROJECT_ID)
 
 const port = process.env.PORT || 3000;
 const hostname = process.env.HTTP_URL || process.env.VERCEL_URL || "localhost"

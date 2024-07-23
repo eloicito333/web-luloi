@@ -47,11 +47,12 @@ export class ChatDatabase {
   }
 
   static sanitazePerson(person) {
+    console.log("sanitaze: ", person)
     return {
+      id: person.id,
       image: person.image,
-      lastConnection: new DateTransformer(person.lastConnection),
+      lastConnection: typeof person.lastConnection === "boolean" ? person.lastConnection : new DateTransformer(person.lastConnection),
       name: person.name,
-      id: person.id
     }
   }
 
@@ -114,11 +115,14 @@ export class ChatDatabase {
 
   static async setPersonOffLine(personId) {
     await db.collection("persons").doc(personId).update({
-      lastConnection: db.FieldValue.serverTimestamp()
+      lastConnection: FieldValue.serverTimestamp()
     })
 
     const newPersonRef = await db.collection("persons").doc(personId).get()
-    return newPersonRef.data()
+    return {
+      ...newPersonRef.data(),
+      id: newPersonRef.id
+    }
   }
 
   static async setPersonOnline(personId) {
@@ -127,6 +131,9 @@ export class ChatDatabase {
     })
 
     const newPersonRef = await db.collection("persons").doc(personId).get()
-    return newPersonRef.data()
+    return {
+      ...newPersonRef.data(),
+      id: newPersonRef.id
+    }
   }
 }
