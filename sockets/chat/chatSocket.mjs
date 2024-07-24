@@ -150,6 +150,10 @@ export const chatSocketInit = (io) => {
       cb({success: true, message: dbMessage})
     })
 
+    socket.on("seen-message", async (messageIndex, conversationId) => {
+      
+    })
+
     socket.on("visibility-change", async (visibilityState) => {
       console.log("visibilityState: ", visibilityState)
       let newPerson = null

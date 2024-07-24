@@ -127,6 +127,7 @@ export const ChatProvider = ({children}) => {
   const [isConnected, setIsConnected] = useState(false);
   const [whoami, setWhoami] = useState(undefined)
   const [socket, setSocket] = useState(undefined)
+  const [newMessagesNumber, setNewMessagesNumber] = useState(0)
 
   const [messageText, setMessageText] = useState("")
   const [currentScrollPosition, setCurrentScrollPosition] = useState([0,0])
@@ -204,6 +205,8 @@ export const ChatProvider = ({children}) => {
         console.log("message recieved!")
         console.log(message, conversationId)
 
+        const newMessageIndex = messages[conversationId].messages.length
+
         setMessages((prevMessages) => {return {
           ...prevMessages,
           [conversationId]: {
@@ -211,6 +214,10 @@ export const ChatProvider = ({children}) => {
             messages: [ message,...prevMessages[conversationId].messages]
           }
         }})
+
+        if(isChatOpen) {
+          socket.emit("seen-message", newMessageIndex, conversationId)
+        }
 
         console.log(messages)
       })
@@ -258,7 +265,9 @@ export const ChatProvider = ({children}) => {
       whoami,
       messageManager,
       messageText,
-      setMessageText
+      setMessageText,
+      newMessagesNumber,
+      setNewMessagesNumber
     }}>
       {children}
     </ChatContext.Provider>
