@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import admin from "firebase-admin";
 import path from "node:path";
+import dotenv from "dotenv"
 import { getDirname } from "./utils.server.js";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -21,12 +22,26 @@ import { getDirname } from "./utils.server.js";
 
 const __dirname = getDirname(import.meta.url);
 
-const serviceAccountPath = path.resolve(__dirname, "../../service-account.json");
+const envName = process.env.NODE_ENV === "production" ? ".env" : ".env.local"
+dotenv.config({path: path.resolve(__dirname, `../../${envName}`)})
 
 // Initialize Firebase Admin SDK with service account key file
 if (!admin.apps.length) {
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccountPath),
+    credential: admin.credential.cert({
+      type: "service_account",
+      project_id: process.env.NEXT_PUBLIC_PROJECT_ID,
+      private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
+      private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/gm, "\n"),
+      client_email: process.env.FIREBASE_CLIENT_EMAIL,
+      client_id: process.env.FIREBASE_CLIENT_ID,
+      auth_uri: "https://accounts.google.com/o/oauth2/auth",
+      token_uri: "https://oauth2.googleapis.com/token",
+      auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
+      client_x509_cert_url: process.env.FIREBASE_CLIENT_CERT_URL,
+      universe_domain: "googleapis.com"
+    }
+    ),
   });
 }
 const db = admin.firestore();

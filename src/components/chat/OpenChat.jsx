@@ -9,9 +9,10 @@ import { Button, cn } from "@nextui-org/react";
 import React, { useEffect, useRef, useState } from "react";
 import { IoMdSend } from "react-icons/io";
 import { RxCross1 } from "react-icons/rx";
+import ChatMessage from "./ChatMessage";
 
 
-const CONVERSATION_ID = "FcHLeahElYvnEphhtyOY"
+const CONVERSATION_ID = process.env.NEXT_PUBLIC_DEFAULT_CONVERSATION
 
 const groupMessagesByDay = (messages) => {
   if (!Array.isArray(messages)) return {};
@@ -34,6 +35,8 @@ function OpenChat({className, ...props}) {
   const textAreaRef = useRef(null)
   const chatContainerRef = useRef(null)
   const windowSize = useWindowSize()
+
+  const currentConversationRef = useRef(messages?.[CONVERSATION_ID] || {})
 
   const textAreaAdjust = (element) => {
     element.style.height = "1px";
@@ -81,7 +84,9 @@ function OpenChat({className, ...props}) {
 
   useEffect(() => {
     if (areMessagesLoaded) {
+      currentConversationRef.current = messages[CONVERSATION_ID]
       setGroupedMessages(groupMessagesByDay(messages?.[CONVERSATION_ID]?.messages || []));
+      
     }
   }, [messages, areMessagesLoaded]);
 
@@ -93,7 +98,7 @@ function OpenChat({className, ...props}) {
     <div className={cn("w-full h-full flex flex-col justify-start items-center", className)} {...props}>
       <div className="h-16 w-full bg-pink-300 flex items-center justify-center">
         <div className="w-full h-full max-w-screen-md flex flex-row justify-between items-center p-8">
-          <ConversationInfo conversation={messages[CONVERSATION_ID]} whoami={whoami} />
+          <ConversationInfo conversationRef={currentConversationRef} whoami={whoami} />
           <button
             onClick={handleCloseChatComponentBtnClick}
             className="bg-transparent border-transparent aspect-square m-0 p-0 w-8 h-8 text-purple-500/50"
@@ -108,19 +113,9 @@ function OpenChat({className, ...props}) {
             return (
               <div className="h-max w-full flex flex-col-reverse justify-start gap-1" key={index}>
                 {groupedMessages[messagesDate].map((message, index) => (
-                  <div className={cn("rounded-xl px-4 py-2 w-max max-w-64 relative block pb-2 pr-14 min-w-8", message.senderId === whoami.id ? "self-end bg-pink-400/50" : "self-start bg-pink-300/50")} key={index}>
-                    {message.contentType === Enums.messageContentTypes.text && message.textContent.split("\\n").map((textLine, index) => {
-                      return (<React.Fragment key={index}>
-                        {index !== 0 && (<br/>)}
-                        {textLine}
-                      </React.Fragment>)
-                    })}
-                    <span className="text-gray-500 text-xs absolute bottom-1 right-3">
-                      {new DateTransformer(message._createdAt).getTimeString()}
-                    </span>
-                  </div>
+                  <ChatMessage message={message} key={index} />
                 ))}
-                <div className="rounded-lg sm:rounded-xl p-1 w-max min-w-10 bg-pink-400 text-pink-200 self-center text-xs sm:text-sm font-semibold text-center sticky top-3" >
+                <div className="rounded-lg sm:rounded-xl p-1 my-1 w-max min-w-10 bg-pink-400 text-pink-200 self-center text-xs sm:text-sm font-semibold text-center sticky top-3" >
                   {new DateTransformer(groupedMessages[messagesDate][0]._createdAt).getRelativeDate() || ""}
                 </div>
               </div>

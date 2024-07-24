@@ -22,6 +22,10 @@ export class ChatDatabase {
     return true
   }
 
+  static async setMessageSeen(messageIndex, conversationId) {
+    
+  }
+
   static async addMessage(message, conversationId) {
     const conversationRef = db.collection("chatConversations").doc(conversationId)
     //const newMessageRef = db.ref(`/chatConversations/${conversationId}/messages`).push()
@@ -47,11 +51,12 @@ export class ChatDatabase {
   }
 
   static sanitazePerson(person) {
+    console.log("sanitaze: ", person)
     return {
+      id: person.id,
       image: person.image,
-      lastConnection: new DateTransformer(person.lastConnection),
+      lastConnection: typeof person.lastConnection === "boolean" ? person.lastConnection : new DateTransformer(person.lastConnection),
       name: person.name,
-      id: person.id
     }
   }
 
@@ -73,24 +78,48 @@ export class ChatDatabase {
   }
 
   static async getConversation(conversationId) {
-    const conversationSnapshot = await db.collection("chatConversations").doc(conversationId).get()
-    if(!conversationSnapshot.exists) return null
+    const conversationDoc = db.collection("chatConversations").doc(conversationId)
 
-    const conversation = conversationSnapshot.data()
+    const getConversation = async() => {
+      const conversationSnapshot = await conversationDoc.get()
+      console.log("snapshot", conversationSnapshot)
+      if(!conversationSnapshot.exists) return null
+
+      const conversation = conversationSnapshot.data()
+      console.log("conversation: ", conversation)
+
+      console.log(conversation)
+      
+      conversation.persons = await conversation.persons.map(async (personId) => {
+        const person = await db.collection("persons").doc(personId).get()
+        if (!person?.exists) return false
+
+        return {
+          ...person.data(),
+          id: person.id
+        }
+      })
+
+      return conversation
+    }
+
+    const getMessages = async () => {
+      const messages = await conversationDoc.collection("messages").orderBy("_createdAt").get()
+      console.log("messages", messages)
+
+      return messages
+    }
     
-    const personsObj = await Promise.all(conversation.persons.map(async (personId) => {
-      const person = await db.collection("persons").doc(personId).get()
-      if (!person?.exists) return false
+    const [partialConversation, messages] = await Promise.all(getConversation, getMessages)
 
-      return {
-        ...person.data(),
-        id: person.id
-      }
-    }))
+    console.log(partialConversation, messages)
 
-    conversation.persons = personsObj
+    /* const conversation = {
+      ...partialConversation,
+      messages: messages
+    }
     
-    return this.sanitazeConversation(conversation)
+    return this.sanitazeConversation(conversation) */
   }
 
   static async getConversations(person) {
@@ -114,11 +143,14 @@ export class ChatDatabase {
 
   static async setPersonOffLine(personId) {
     await db.collection("persons").doc(personId).update({
-      lastConnection: db.FieldValue.serverTimestamp()
+      lastConnection: FieldValue.serverTimestamp()
     })
 
     const newPersonRef = await db.collection("persons").doc(personId).get()
-    return newPersonRef.data()
+    return {
+      ...newPersonRef.data(),
+      id: newPersonRef.id
+    }
   }
 
   static async setPersonOnline(personId) {
@@ -127,6 +159,9 @@ export class ChatDatabase {
     })
 
     const newPersonRef = await db.collection("persons").doc(personId).get()
-    return newPersonRef.data()
+    return {
+      ...newPersonRef.data(),
+      id: newPersonRef.id
+    }
   }
 }

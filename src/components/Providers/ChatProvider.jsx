@@ -119,12 +119,15 @@ const ChatContext = createContext()
 export const useChatContext = () => useContext(ChatContext)
 
 export const ChatProvider = ({children}) => {
+  const {isPageVisible} = useAppContext()
+
   const [isChatOpen, setIsChatOpen] = useState(false)
   const [messages, setMessages] = useState({})
   const [areMessagesLoaded, setAreMessagesLoaded] = useState(false)
   const [isConnected, setIsConnected] = useState(false);
   const [whoami, setWhoami] = useState(undefined)
   const [socket, setSocket] = useState(undefined)
+  const [newMessagesNumber, setNewMessagesNumber] = useState(0)
 
   const [messageText, setMessageText] = useState("")
   const [currentScrollPosition, setCurrentScrollPosition] = useState([0,0])
@@ -138,6 +141,7 @@ export const ChatProvider = ({children}) => {
 
   useEffect(() => {
     messagesRef.current = messages
+    console.log("new messages: ", messages)
   }, [messages])
 
   useEffect(() => {
@@ -197,13 +201,11 @@ export const ChatProvider = ({children}) => {
 
       console.log("connected", socket, whoami)
 
-      socket.on("hievent", (world) => {
-        console.log("hi event", world)
-      })
-
       socket.on("receive-message", (message, conversationId) => {
         console.log("message recieved!")
         console.log(message, conversationId)
+
+        const newMessageIndex = messages[conversationId].messages.length
 
         setMessages((prevMessages) => {return {
           ...prevMessages,
@@ -213,22 +215,26 @@ export const ChatProvider = ({children}) => {
           }
         }})
 
-        console.log(messages)
-
-      })
-    })
-
-    socket.on("person-change", (newPerson, room) => {
-      console.log("person-change received")
-      setMessages((prevMsg) => {
-        return {
-          ...prevMsg,
-          [room]: {
-            ...prevMsg,
-            persons: prevMsg[room].persons.map((el) => el.id !== newPerson.id ? el : newPerson)
-          }
+        if(isChatOpen) {
+          socket.emit("seen-message", newMessageIndex, conversationId)
         }
+
+        console.log(messages)
       })
+
+      socket.on("person-change", (newPerson, room) => {
+        console.log("person-change received", newPerson, room)
+        setMessages((prevMsg) => {
+          return {
+            ...prevMsg,
+            [room]: {
+              ...prevMsg[room],
+              persons: prevMsg[room].persons.map((el) => el.id !== newPerson.id ? el : newPerson)
+            }
+          }
+        })
+      })
+
     })
 
     socket.connect()
@@ -242,7 +248,12 @@ export const ChatProvider = ({children}) => {
 
   }, [areMessagesLoaded])
 
-  
+  useEffect(() => {
+    if(!socket) return
+
+    socket.emit("visibility-change", isPageVisible)
+
+  }, [isPageVisible, socket])
 
   return (
     <ChatContext.Provider value={{
@@ -254,7 +265,9 @@ export const ChatProvider = ({children}) => {
       whoami,
       messageManager,
       messageText,
-      setMessageText
+      setMessageText,
+      newMessagesNumber,
+      setNewMessagesNumber
     }}>
       {children}
     </ChatContext.Provider>

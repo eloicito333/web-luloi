@@ -3,31 +3,31 @@ import React, { useEffect, useState } from 'react'
 import { DateTransformer } from '@/lib/utils.client'
 import UserIconFallback from '../UserIconFallback'
 
-function ConversationInfo({conversation, whoami}) {
+function ConversationInfo({conversationRef, whoami}) {
   const [imageUrl, setImageUrl] = useState("")
   const [titleText, setTitleText] = useState("")
   const [descriptionText, setDescriptionText] = useState("")
 
   const setVariables = () => {
-    if(conversation == {}) return
-    if(conversation?.isTwoPersons) {
-      const otherPersons = conversation.persons.filter((person) => person.id !== whoami.id)
+    if(conversationRef.current == {}) return
+    console.log("set variables")
+    if(conversationRef.current?.isTwoPersons) {
+      const otherPersons = conversationRef.current.persons.filter((person) => person.id !== whoami.id)
       if(otherPersons.length !== 1) throw new Error("Conversation is not two persons")
       
       const otherPerson = otherPersons[0]
       const lastConnectionDate = new DateTransformer(otherPerson.lastConnection)
-      console.log(lastConnectionDate)
+      console.log(otherPerson?.lastConnection === true ? "en línia" : `Última connexió`)
 
       setImageUrl(otherPerson.image)
       setTitleText(otherPerson.name)
-      setDescriptionText(otherPerson?.online ? "en línia" : `Última connexió ${lastConnectionDate.getDateInSpokenLanguageForLastConnection()}`)
-      console.log(otherPerson.lastConnection)
+      setDescriptionText(otherPerson?.lastConnection === true ? "en línia" : `Última connexió ${lastConnectionDate.getDateInSpokenLanguageForLastConnection()}`)
     }
   }
 
   useEffect(() => {
     setVariables()
-  }, [conversation, whoami, setVariables])
+  }, [conversationRef.current, whoami])
   
   return (
     <User

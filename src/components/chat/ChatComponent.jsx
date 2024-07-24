@@ -16,7 +16,7 @@ function ChatComponent() {
 
   return (
     <div className={cn("absolute top-0 left-0 bg-pink-200 z-50 w-full h-dvh transition-all duration-700", isChatOpen ? "openChat flex flex-col justify-start items-center" : "closedChat")}>
-        {!isChatOpen ? (<div onClick={handleChatComponentOpenBtnClick} className={cn("w-28 h-28 rounded-full p-2 absolute bottom-6 right-6 text-white flex items-center justify-center", isChatOpen && "hidden" )}>
+        {!isChatOpen ? (<div onClick={handleChatComponentOpenBtnClick} className={cn("w-28 h-28 rounded-full p-2 absolute bottom-6 right-6 text-white flex items-center justify-center cursor-pointer", isChatOpen && "hidden" )}>
           <IoChatboxEllipsesOutline className="w-20 h-20 mt-0.5 ml-0.5" />
         </div>)
         : (<OpenChat className={cn(!isChatOpen && "hidden")} />)}
