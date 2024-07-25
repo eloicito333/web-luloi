@@ -18,9 +18,9 @@ function ChatMessage({message, className, ...props}) {
       })}
       <span className="text-gray-500 text-xs absolute bottom-1 right-3 flex flex-row items-center justify-end gap-1">
         {new DateTransformer(message._createdAt).getTimeString()}
-        {message.senderId === whoami.id && (
+        {/* {message.senderId === whoami.id && (
           <RiCheckDoubleFill className={cn("h-3 w-3 transition-all", message?.seen ? "text-blue-500" : "text-gray-500")} />
-        )}
+        )} */}
       </span>
     </div>
   )
