@@ -23,6 +23,7 @@ const publicRoutes = [
   "/manifest.webmanifest",
   "/icons/*",
   "/images/*",
+  "/redirects/*",
 ]
 
 const adminRoutesPatterns = adminRoutes.map((route) => new UrlPattern(route))
