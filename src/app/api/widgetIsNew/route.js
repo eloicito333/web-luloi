@@ -25,7 +25,7 @@ export const GET = async (request) => {
     if(versionSeen === undefined) {
       return NextResponse.json({widgetIsNew: true}, {status: 200})
     }
-    const widgetIsNew = compareVersions(WIDGET_VERSIONS[widget], versionSeen)
+    const widgetIsNew = compareVersions(WIDGET_VERSIONS[widget], versionSeen) >= 1 ? true : false
     return NextResponse.json({widgetIsNew}, {status: 200})
 
   } catch (error) {
