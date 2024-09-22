@@ -32,7 +32,7 @@ function AuthorizedNavbar({user}) {
   }
 
   return (
-    <Navbar className='bg-pink-300/50' isMenuOpen={isAdminSideBarOpen}>
+    <Navbar className='bg-[#fcb8e1]' isMenuOpen={isAdminSideBarOpen}>
       <NavbarContent as="div" justify="start" className="flex flex-row justify-center items-center gap-4">
         {isAdminUser && isAdminRoute && (
           <NavbarMenuToggle
