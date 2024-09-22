@@ -8,7 +8,7 @@ import WidgetCard from '../components/WidgetCard';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import HeartConfetti from '../components/HeartConfetti';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
-import { daysDiff, getDigitFromEnd, hoursDiff, minutesDiff, monthsDiff, secondsDiff } from '@/lib/counterWidgetTimeFormatters';
+import { daysDiff, getDigitFromEnd, hoursDiff, minutesDiff, monthsDiff, secondsDiff, yearsDiff } from '@/lib/counterWidgetTimeFormatters';
 import { SM_SCREEN_SIZE } from '@/lib/consts';
 import { useAppContext } from '@/components/Providers/AppProvider';
 
@@ -31,6 +31,10 @@ const displayableGroups = [
 ]
 
 const resumedGroups = [
+  {
+    name: 'mesos',
+    getValue: monthsDiff,
+  },
   {
     name: 'setmanes',
     getValue: (d1, d2) => Math.floor((d2.getTime() - d1.getTime()) / (1000 * 3600 * 24 * 7)),
@@ -65,8 +69,20 @@ const CounterWidget = () => {
 
   const [lastAniversaryDateSeen, setLastAniversaryDateSeen] = useLocalStorage("lastAniversaryDateSeen", undefined)
 
+  const [datingNums, setDatingNums] = useState({
+    years: yearsDiff(counterDate, now),
+    months: monthsDiff(counterDate, now) % 12,
+    days: daysDiff(counterDate, now)
+  })
+
 
   useEffect(() => {
+    setDatingNums({
+      years: yearsDiff(counterDate, now),
+      months: monthsDiff(counterDate, now) % 12,
+      days: daysDiff(counterDate, now)
+    })
+    
     if (lastAniversaryDateSeen === undefined) {
       (async () => {
         const response = await fetch('/api/counterWidget/lastAniversaryDateSeen')
@@ -125,9 +141,25 @@ const CounterWidget = () => {
         animate={isAccordionOpened ? "whenOpened" : "whenCollapsed"}
         transition={{ duration: 0.3 }}
       ><MdKeyboardArrowLeft className='p-0 m-0 fill-violet-700'/></Button>
-      <CardHeader>
-        <p className="text-md sm:text-lg">
-          Portem junts <span className="text-4xl sm:text-5xl font-bold">{monthsDiff(counterDate, now)%12}</span> <span className="text-lg sm:text-xl font-semibold">mesos</span>, <span className="text-4xl sm:text-5xl font-bold">{daysDiff(counterDate, now)}</span> <span className="text-lg sm:text-xl font-semibold">dies</span> i
+      <CardHeader className="mt-2 mb-[-0.5rem] sm:my-0">
+        <p className="w-full text-lg sm:text-xl">
+          Portem junts
+          <br />
+          <div className="w-full text-center mt-2 sm:mt-4">
+            {datingNums.years > 0 && (
+              <>
+                <span className="text-7xl sm:text-9xl font-bold">{datingNums.years}</span> <span className="text-4xl sm:text-5xl font-semibold">any{datingNums.years > 1 && "s"}</span>{(datingNums.months || datingNums.days) ? <>,<br /></> : " i"}
+              </>
+            )}{datingNums.months > 0 && (
+              <>
+                <span className="text-4xl sm:text-5xl font-bold">{datingNums.months}</span> <span className="font-semibold">{datingNums.months > 1 ? "mesos" : "mes"}</span>{datingNums.days > 0 ? ", " : <br />}
+              </>
+            )}{datingNums.days > 0 && (
+              <>
+                <span className="text-4xl sm:text-5xl font-bold">{datingNums.days}</span> <span className="font-semibold">{datingNums.days > 1 ? "dies" : "dia"}</span> i
+              </>
+            )}
+          </div>
         </p>
       </CardHeader>
       <CardBody className="flex flex-row justify-center items-start gap-2 tabular-nums">
@@ -157,7 +189,7 @@ const CounterWidget = () => {
             className='relative w-full overflow-hidden'
             variants={{
               open: {
-                height: `${isSmScreen ? 289 : 365}px`
+                height: `${2*12 + resumedGroups.length*(37+(isSmScreen ? 8 : 12)) + 27}px`
               },
               collapsed: {
                 height: 0,
@@ -169,20 +201,6 @@ const CounterWidget = () => {
           >
             <CardFooter
               className="absolute flex flex-col justify-start items-start gap-2 sm:gap-3"
-              as={motion.div}
-              variants={{
-                open: {
-                  height: 'auto',
-                  opacity: 1,
-                },
-                collapsed: {
-                  height: 0,
-                  opacity: 0,
-                }
-              }}
-              animate="open"
-              exit="collapsed"
-              transition={{ duration: 0.3 }}
             >
               <p className="text-md sm:text-lg pb-2 sm:pb-0 pt-2">Que equival a...</p>
               {resumedGroups.map((group, index) => (

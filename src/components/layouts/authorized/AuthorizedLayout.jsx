@@ -13,7 +13,7 @@ function AuthorizedLayout({children}) {
   
   return (
     <ChatProvider>
-      <div className='bg-pink-200 w-full h-dvh'>
+      <div className='bg-pink-200 w-full h-dvh overflow-auto'>
         <AuthorizedNavbar user={user} />
         <div className='h-full text-black'>
           {children}
