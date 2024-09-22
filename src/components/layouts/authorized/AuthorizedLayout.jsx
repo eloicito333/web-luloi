@@ -15,7 +15,7 @@ function AuthorizedLayout({children}) {
     <ChatProvider>
       <div className='bg-pink-200 w-full h-dvh overflow-auto'>
         <AuthorizedNavbar user={user} />
-        <div className='h-full text-black'>
+        <div className='h-[calc(100%-64px)] text-black'>
           {children}
         </div>
         <ChatComponent />

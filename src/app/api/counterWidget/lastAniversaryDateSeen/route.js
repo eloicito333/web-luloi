@@ -14,7 +14,7 @@ export const GET = async (request) => {
     if (!doc.exists) {
       return NextResponse.json({lastAniversaryDateSeen: 0}, {status: 200})
     }
-      return NextResponse.json({lastAniversaryDateSeen: doc.data().lastAniversaryDateSeen}, {status: 200})
+      return NextResponse.json({lastAniversaryDateSeen: doc.data()?.lastAniversaryDateSeen || 0}, {status: 200})
   } catch (error) {
     console.error('An error occured while trying to get the last aniversary date seen through an api request to /api/counterWidget/lastAniversaryDateSeen. Error: ', error)
 

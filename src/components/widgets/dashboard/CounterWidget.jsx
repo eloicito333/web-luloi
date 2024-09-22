@@ -57,14 +57,13 @@ const resumedGroups = [
   }
 ]
 
-
 const CounterWidget = () => {
   const counterDate = new Date(process.env.NEXT_PUBLIC_counter_DATE || "2023-09-23T00:00:00")
 
   const windowSize = useWindowSize()
   let isSmScreen = windowSize.width < SM_SCREEN_SIZE
 
-  const {now, isPageLoockingClear} = useAppContext()
+  const {now, isPageLookingClear} = useAppContext()
   const [isAccordionOpened, setIsAccordionOpened] = useState(false)
 
   const [lastAniversaryDateSeen, setLastAniversaryDateSeen] = useLocalStorage("lastAniversaryDateSeen", undefined)
@@ -74,6 +73,18 @@ const CounterWidget = () => {
     months: monthsDiff(counterDate, now) % 12,
     days: daysDiff(counterDate, now)
   })
+
+  const heartConfettiCallback = async () => {
+    if (globalThis?.window === undefined) return
+
+    const currentDate = monthsDiff(counterDate, now)
+    const response = await fetch('/api/counterWidget/lastAniversaryDateSeen', {
+      method: 'POST',
+      body: JSON.stringify({currentDate})
+    })
+    if(response.status !== 200) throw new Error('error while posting lastAniversaryDateSeen data')
+    setLastAniversaryDateSeen(currentDate)
+  }
 
 
   useEffect(() => {
@@ -96,18 +107,7 @@ const CounterWidget = () => {
         setLastAniversaryDateSeen(currentDate)
       })()
     }
-    else if(globalThis?.window !== undefined && isPageLoockingClear && lastAniversaryDateSeen < monthsDiff(counterDate, now)) {
-      (async () => {
-        const currentDate = monthsDiff(counterDate, now)
-        const response = await fetch('/api/counterWidget/lastAniversaryDateSeen', {
-          method: 'POST',
-          body: JSON.stringify({currentDate})
-        })
-        if(response.status !== 200) throw new Error('error while posting lastAniversaryDateSeen data')
-        setLastAniversaryDateSeen(currentDate)
-      })()
-    }
-  }, [isPageLoockingClear, lastAniversaryDateSeen, setLastAniversaryDateSeen, counterDate, now])
+  }, [isPageLookingClear, lastAniversaryDateSeen, now, setDatingNums])
 
   const handleAccordionButtonClick = () => {
     setIsAccordionOpened((state) => !state)
@@ -212,7 +212,7 @@ const CounterWidget = () => {
           </motion.div>
         )}
       </AnimatePresence>
-      {isPageLoockingClear && lastAniversaryDateSeen < monthsDiff(counterDate, now) && <HeartConfetti />}
+      {isPageLookingClear && lastAniversaryDateSeen < monthsDiff(counterDate, now) && <HeartConfetti callback={heartConfettiCallback} timeoutTime={5000}/>}
     </WidgetCard>
   );
 };
