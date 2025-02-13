@@ -37,3 +37,4 @@ next-env.d.ts
 
 #firebase keys
 service-account.json
+.codegpt

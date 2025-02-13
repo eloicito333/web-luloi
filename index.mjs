@@ -36,4 +36,4 @@ app.prepare().then(() => {
     .listen(port, () => {
       console.log(`> Ready on ${ process.env?.VERCEL_URL || `http://${hostname}:${port}`}`);
     });
-});
+}).catch((e) => console.log(e));

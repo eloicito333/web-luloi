@@ -1,6 +1,6 @@
 {
     "name": "web-luloi-2",
-    "version": "0.6.1",
+    "version": "0.6.2",
     "private": true,
     "type": "module",
     "exports": {
@@ -11,7 +11,7 @@
     "scripts": {
         "dev": "nodemon index.mjs",
         "build": "next build",
-        "start": "NODE_ENV=production node index.mjs",
+        "start": " node index.mjs",
         "lint": "next lint"
     },
     "dependencies": {
